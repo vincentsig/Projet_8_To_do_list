@@ -4,8 +4,12 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
 
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
+
 body {
-    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
 
 .slide-image {
@@ -30,7 +34,7 @@ body {
     white-space: nowrap;
 }
 
-.thumbnail img {
+.card img {
     width: 100%;
 }
 
@@ -40,11 +44,13 @@ body {
     color: #d17581;
 }
 
-.thumbnail {
+.card {
     padding: 0;
+    margin-bottom: 20px;
+
 }
 
-.thumbnail .caption-full {
+.card .caption {
     padding: 9px;
     color: #333;
 }
