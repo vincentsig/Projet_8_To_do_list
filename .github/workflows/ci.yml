@@ -42,4 +42,4 @@ jobs:
         run: php vendor/bin/simple-phpunit
 
       - name: Analyze coding style
-        run: php vendor/bin/phpcs 
+        run: php vendor/bin/php-cs-fixer.bat 
