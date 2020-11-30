@@ -41,5 +41,7 @@ jobs:
       - name: Run functional tests
         run: php vendor/bin/simple-phpunit
 
-      - name: Analyze coding style
-        run: php vendor/bin/php-cs-fixer.bat 
+      - name: php-cs-fixer default
+        uses: zalexki/php-cs-fixer-action@master
+        with:
+            other-cmds: '--dry-run --diff --config=/php_cs.dist'
