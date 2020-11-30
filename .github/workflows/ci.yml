@@ -44,4 +44,4 @@ jobs:
       - name: php-cs-fixer default
         uses: zalexki/php-cs-fixer-action@master
         with:
-            other-cmds: '--dry-run --diff --config=/.php_cs.dist'
+            other-cmds: '--dry-run --diff'
