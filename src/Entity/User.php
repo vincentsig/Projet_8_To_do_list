@@ -4,9 +4,9 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -40,10 +40,10 @@ class User implements UserInterface
     private $password;
 
     /**
-    * @ORM\Column(type="string", length=60, unique=true)
-    * @Assert\NotBlank(message="Vous devez saisir une adresse email.")
-    * @Assert\Email(message="Le format de l'adresse n'est pas correcte.")
-    */
+     * @ORM\Column(type="string", length=60, unique=true)
+     * @Assert\NotBlank(message="Vous devez saisir une adresse email.")
+     * @Assert\Email(message="Le format de l'adresse n'est pas correcte.")
+     */
     private $email;
 
     public function getId(): ?int
