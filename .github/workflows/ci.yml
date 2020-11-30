@@ -40,3 +40,6 @@ jobs:
 
       - name: Run functional tests
         run: php vendor/bin/simple-phpunit
+
+      - name: Analyze coding style
+        run: php vendor/bin/phpcs 
