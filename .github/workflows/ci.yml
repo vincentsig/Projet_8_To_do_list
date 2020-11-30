@@ -43,5 +43,5 @@ jobs:
 
       - name: php-cs-fixer default
         uses: docker://oskarstark/php-cs-fixer-ga
-+         with:
-+           args: --config=.project.php_cs --diff --dry-run'
+          with:
+            args: --config=.project.php_cs --diff --dry-run
