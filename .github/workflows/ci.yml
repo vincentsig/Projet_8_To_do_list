@@ -42,6 +42,6 @@ jobs:
         run: php vendor/bin/simple-phpunit
 
       - name: php-cs-fixer default
-        uses: zalexki/php-cs-fixer-action@master
-        with:
-            other-cmds: '--dry-run --diff'
+        uses: docker://oskarstark/php-cs-fixer-ga
++         with:
++           args: --config=.project.php_cs --diff --dry-run'
