@@ -41,7 +41,7 @@ jobs:
       - name: Run functional tests
         run: php vendor/bin/simple-phpunit
 
-      - name: php-cs-fixer default
+      - name: PHP-CS-Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
           with:
-            args: --config=.project.php_cs --diff --dry-run
+            args: --config=.TO_DO_LIST.php_cs --diff --dry-run
