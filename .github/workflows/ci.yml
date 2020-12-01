@@ -36,13 +36,11 @@ jobs:
           npm run dev
       - name: Install Composer dependencies
         run: |
-          composer install --no-progress --no-suggest --prefer-dist 
+          composer install --no-progress --no-suggest --prefer-dist
 
       - name: Run functional tests
         run: php vendor/bin/simple-phpunit
 
-
       - name: PHP-CS-Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
-        with:
-          args: --diff
+       
