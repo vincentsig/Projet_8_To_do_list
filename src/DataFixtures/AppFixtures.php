@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
 
         for ($i = 0; $i < 100; ++$i) {
             $task = new Task();
-            $task->setTitle('task '.$i);
+            $task->setTitle('task ' . $i);
             $task->setContent($faker->paragraph(3, true));
             $manager->persist($task);
         }

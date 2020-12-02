@@ -41,6 +41,6 @@ jobs:
       - name: Run functional tests
         run: php vendor/bin/simple-phpunit
 
-      - name: PHP-CS-Fixer
-        uses: docker://oskarstark/php-cs-fixer-ga
+      - name: PHP-Code-Snifer
+        run: php vendor/bin/phpcs
        
