@@ -37,9 +37,8 @@ class WebTestCase extends BaseWebTestCase
         if (!empty($metadata)) {
             $schemaTool->createSchema($metadata);
         }
-
     }
-    
+
     /**
      * visit
      * Execute the request corresponding to the url($url)
@@ -71,10 +70,10 @@ class WebTestCase extends BaseWebTestCase
 
     /**
      * check if the text is in the responseContent
-     * @param string $text 
-     * @return WebTestCase 
-     * @throws ExpectationFailedException 
-     * @throws InvalidArgumentException 
+     * @param string $text
+     * @return WebTestCase
+     * @throws ExpectationFailedException
+     * @throws InvalidArgumentException
      */
     protected function seeText(string $text): self
     {
@@ -173,5 +172,4 @@ class WebTestCase extends BaseWebTestCase
         $this->em->close();
         $this->em = null;
     }
-
 }
