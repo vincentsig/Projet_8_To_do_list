@@ -21,6 +21,7 @@ class TaskControllerTest extends WebTestCase
             'title' => 'task test',
             'content' => 'this is a content test',
             'author' => null,
+            'isDone' => false
         ], $overrides);
 
         $task = (new Task($data))
@@ -28,6 +29,8 @@ class TaskControllerTest extends WebTestCase
             ->setTitle($data['title'])
             ->setContent($data['content'])
             ->setAuthor(null);
+
+        $task->toggle($data['isDone']);
 
         $this->em->persist($task);
         $this->em->flush();
@@ -92,7 +95,7 @@ class TaskControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function edit_task_should_display_task_form()
+    public function edit_task_page_should_display_task_form()
     {
         $task = $this->createTask(['title' => 'title']);
 
@@ -100,6 +103,25 @@ class TaskControllerTest extends WebTestCase
         $this->assertSelectorExists('form');
         $this->assertSelectorExists("input[name='task[title]']");
         $this->assertSelectorExists("textarea[name='task[content]']");
+    }
+
+    /**
+     * @test
+     */
+    public function edit_and_saving_task_should_display_flash_message_and_redirect_task_list()
+    {
+        $task = $this->createTask(['title' => 'title']);
+
+        $this->visit('/tasks/' . $task->getId() . '/edit');
+
+        $form = $this->crawler->selectButton('Modifier')->form();
+        $form['task[title]'] = 'title edit test';
+        $form['task[content]'] = 'content edit test';
+        $this->client->submit($form);
+
+        $this->client->followRedirects();
+
+        $this->seePageIs('/tasks');
     }
 
     /**
@@ -122,10 +144,11 @@ class TaskControllerTest extends WebTestCase
 
         $this->visit('/tasks');
         $this->SeeText($task2->getTitle());
-        $this->client->followRedirects(true);
 
+        $this->client->followRedirects(true);
         $this->visit('/tasks/' . $task2->getId() . '/delete');
 
+        $this->seePageIs('/tasks');
         $this->dontSeeText($task2->getTitle());
         $this->assertStringContainsString(
             'Superbe ! La tâche a bien été supprimée.',
@@ -139,6 +162,7 @@ class TaskControllerTest extends WebTestCase
     public function create_task_should_display_task_form()
     {
         $this->visit('/tasks/create');
+
         $this->assertSelectorExists('form');
         $this->assertSelectorExists("input[name='task[title]']");
         $this->assertSelectorExists("textarea[name='task[content]']");
@@ -171,15 +195,17 @@ class TaskControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function click_on_marked_as_done_should_display_check_icone_and_flash_message()
+    public function click_on_marked_as_done_should_hide_task_and_display_flash_message()
     {
-        $task1 = $this->createTask();
+        $task1 = $this->createTask(['content' => 'this content should not appear on tasks list not done']);
+        $task2 = $this->createTask(['content' => 'this content should appear on tasks list not done']);
 
+        $this->visit('/tasks');
         $this->client->followRedirects();
-
         $this->visit('/tasks/' . $task1->getId() . '/toggle');
 
-        $this->assertSelectorExists('span.fas.fa-check');
+        $this->dontSeeText('this content should not appear on tasks list not done');
+        $this->SeeText('this content should appear on tasks list not done');
         $this->assertStringContainsString(
             'Superbe ! La tâche ' . $task1->getTitle() . ' a bien été marquée comme faite.',
             $this->crawler->filter('div.alert')->text()
@@ -189,13 +215,23 @@ class TaskControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function click_on_marked_unfinished_should_display_check_icone_and_flash_message()
+    public function click_on_marked_unfinished_should_and_flash_message()
     {
-        $this->createTask();
+        $task1 = $this->createTask([
+            'title' => 'task test',
+            'isDone' => 'true'
+            ]);
+
+        $this->visit('/tasks/done');
+
+        $this->seeText('task test');
+        $this->assertSelectorExists('span.fas.fa-check');
 
         $this->client->followRedirects();
-        $this->visit('/tasks/');
-
-        $this->assertSelectorExists('span.fas.fa-times');
+        $this->visit('/tasks/' . $task1->getId() . '/toggle');
+        $this->assertStringContainsString(
+            'Superbe ! La tâche ' . $task1->getTitle() . ' a bien été marquée comme non terminé.',
+            $this->crawler->filter('div.alert')->text()
+        );
     }
 }
