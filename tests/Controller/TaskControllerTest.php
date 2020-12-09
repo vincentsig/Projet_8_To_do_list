@@ -43,6 +43,7 @@ class TaskControllerTest extends WebTestCase
      */
     public function task_list_should_list_the_right_number_of_tasks()
     {
+        $this->getAdminLogin();
         for ($i = 1; $i <= 8; ++$i) {
             $this->createTask();
         }
@@ -57,6 +58,7 @@ class TaskControllerTest extends WebTestCase
      */
     public function if_tasks_list_has_no_task_yet_it_should_display_message_no_task_saved()
     {
+        $this->getAdminLogin();
         $this->visit('/tasks');
 
         $this->seeText("Il n'y a pas encore de tâche enregistrée.");
@@ -67,6 +69,7 @@ class TaskControllerTest extends WebTestCase
      */
     public function show_should_return_404_response_if_task_id_do_not_exist()
     {
+        $this->getAdminLogin();
         for ($i = 1; $i < 5; ++$i) {
             $this->createTask();
         }
@@ -80,6 +83,7 @@ class TaskControllerTest extends WebTestCase
      */
     public function navigation_from_list_task_to_task_edit_should_work()
     {
+        $this->getAdminLogin();
         $task1 = $this->createTask(['title' => 'task_1']);
         $task2 = $this->createTask(['title' => 'task_2']);
 
@@ -97,6 +101,7 @@ class TaskControllerTest extends WebTestCase
      */
     public function edit_task_page_should_display_task_form()
     {
+        $this->getAdminLogin();
         $task = $this->createTask(['title' => 'title']);
 
         $this->visit('/tasks/' . $task->getId() . '/edit');
@@ -110,6 +115,7 @@ class TaskControllerTest extends WebTestCase
      */
     public function edit_and_saving_task_should_display_flash_message_and_redirect_task_list()
     {
+        $this->getAdminLogin();
         $task = $this->createTask(['title' => 'title']);
 
         $this->visit('/tasks/' . $task->getId() . '/edit');
@@ -129,6 +135,7 @@ class TaskControllerTest extends WebTestCase
      */
     public function navigation_from_list_task_to_create_task_should_work()
     {
+        $this->getAdminLogin();
         $this->visit('/tasks')
             ->assertResponseOK()
             ->clickLink('Créer une tâche')
@@ -140,6 +147,7 @@ class TaskControllerTest extends WebTestCase
      */
     public function click_on_delete_button_should_remove_the_task()
     {
+        $this->getAdminLogin();
         $task2 = $this->createTask(['title' => 'task_2']);
 
         $this->visit('/tasks');
@@ -161,6 +169,7 @@ class TaskControllerTest extends WebTestCase
      */
     public function create_task_should_display_task_form()
     {
+        $this->getAdminLogin();
         $this->visit('/tasks/create');
 
         $this->assertSelectorExists('form');
@@ -173,6 +182,7 @@ class TaskControllerTest extends WebTestCase
      */
     public function create_a_new_task_should_redirect_to_tasks_list_and_display_the_taskand_flash_message()
     {
+        $this->getAdminLogin();
         $this->visit('/tasks/create');
 
         $form = $this->crawler->selectButton('Ajouter')->form();
@@ -197,6 +207,7 @@ class TaskControllerTest extends WebTestCase
      */
     public function click_on_marked_as_done_should_hide_task_and_display_flash_message()
     {
+        $this->getAdminLogin();
         $task1 = $this->createTask(['content' => 'this content should not appear on tasks list not done']);
         $task2 = $this->createTask(['content' => 'this content should appear on tasks list not done']);
 
@@ -217,6 +228,7 @@ class TaskControllerTest extends WebTestCase
      */
     public function click_on_marked_unfinished_should_and_flash_message()
     {
+        $this->getAdminLogin();
         $task1 = $this->createTask([
             'title' => 'task test',
             'isDone' => 'true'

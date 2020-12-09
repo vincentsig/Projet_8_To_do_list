@@ -68,7 +68,7 @@
        </div>
 </td>
        <td class="danger small"><div align="right">0.00%</div></td>
-       <td class="danger small"><div align="right">0&nbsp;/&nbsp;17</div></td>
+       <td class="danger small"><div align="right">0&nbsp;/&nbsp;18</div></td>
       </tr>
 
       <tr>
@@ -97,7 +97,7 @@
        </div>
 </td>
        <td class="danger small"><div align="right">0.00%</div></td>
-       <td class="danger small"><div align="right">0&nbsp;/&nbsp;17</div></td>
+       <td class="danger small"><div align="right">0&nbsp;/&nbsp;18</div></td>
       </tr>
 
       <tr>
@@ -139,7 +139,7 @@
        </div>
 </td>
        <td class="danger small"><div align="right">0.00%</div></td>
-       <td class="danger small"><div align="right">0&nbsp;/&nbsp;15</div></td>
+       <td class="danger small"><div align="right">0&nbsp;/&nbsp;16</div></td>
       </tr>
 
 
@@ -183,11 +183,12 @@
     <tr class="danger d-flex"><td  class="col-1 text-right"><a id="33" href="#33">33</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$user</span><span class="default">-&gt;</span><span class="default">setUsername</span><span class="keyword">(</span><span class="default">'user_test'</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
     <tr class="danger d-flex"><td  class="col-1 text-right"><a id="34" href="#34">34</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$user</span><span class="default">-&gt;</span><span class="default">setPassword</span><span class="keyword">(</span><span class="default">$this</span><span class="default">-&gt;</span><span class="default">encoder</span><span class="default">-&gt;</span><span class="default">encodePassword</span><span class="keyword">(</span><span class="default">$user</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">'12345'</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
     <tr class="danger d-flex"><td  class="col-1 text-right"><a id="35" href="#35">35</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$user</span><span class="default">-&gt;</span><span class="default">setEmail</span><span class="keyword">(</span><span class="default">$faker</span><span class="default">-&gt;</span><span class="default">email</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
-    <tr class="danger d-flex"><td  class="col-1 text-right"><a id="36" href="#36">36</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$manager</span><span class="default">-&gt;</span><span class="default">persist</span><span class="keyword">(</span><span class="default">$user</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="37" href="#37">37</a></td><td class="col-11 codeLine"></td></tr>
-    <tr class="danger d-flex"><td  class="col-1 text-right"><a id="38" href="#38">38</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$manager</span><span class="default">-&gt;</span><span class="default">flush</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
-    <tr class="danger d-flex"><td  class="col-1 text-right"><a id="39" href="#39">39</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="40" href="#40">40</a></td><td class="col-11 codeLine"><span class="keyword">}</span></td></tr>
+    <tr class="danger d-flex"><td  class="col-1 text-right"><a id="36" href="#36">36</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$user</span><span class="default">-&gt;</span><span class="default">setRoles</span><span class="keyword">(</span><span class="keyword">[</span><span class="default">'ROLE_ADMIN'</span><span class="keyword">]</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
+    <tr class="danger d-flex"><td  class="col-1 text-right"><a id="37" href="#37">37</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$manager</span><span class="default">-&gt;</span><span class="default">persist</span><span class="keyword">(</span><span class="default">$user</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="38" href="#38">38</a></td><td class="col-11 codeLine"></td></tr>
+    <tr class="danger d-flex"><td  class="col-1 text-right"><a id="39" href="#39">39</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$manager</span><span class="default">-&gt;</span><span class="default">flush</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
+    <tr class="danger d-flex"><td  class="col-1 text-right"><a id="40" href="#40">40</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="41" href="#41">41</a></td><td class="col-11 codeLine"><span class="keyword">}</span></td></tr>
 
 </tbody>
 </table>
@@ -198,7 +199,7 @@
     <h4>Legend</h4>
     <p><span class="success"><strong>Executed</strong></span><span class="danger"><strong>Not Executed</strong></span><span class="warning"><strong>Dead Code</strong></span></p>
     <p>
-     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.5</a> using <a href="https://secure.php.net/" target="_top">PHP 7.3.19</a> with <a href="https://xdebug.org/">Xdebug 3.0.0</a> and <a href="https://phpunit.de/">PHPUnit 9.4.3</a> at Tue Dec 8 14:13:47 EST 2020.</small>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.5</a> using <a href="https://secure.php.net/" target="_top">PHP 7.3.19</a> with <a href="https://xdebug.org/">Xdebug 3.0.0</a> and <a href="https://phpunit.de/">PHPUnit 9.4.3</a> at Wed Dec 9 15:57:31 EST 2020.</small>
     </p>
     <a title="Back to the top" id="toplink" href="#">
         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16"><path fill-rule="evenodd" d="M12 11L6 5l-6 6h12z"/></svg>

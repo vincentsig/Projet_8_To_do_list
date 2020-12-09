@@ -33,6 +33,7 @@ class UserFixtures extends Fixture
         $user->setUsername('user_test');
         $user->setPassword($this->encoder->encodePassword($user, '12345'));
         $user->setEmail($faker->email());
+        $user->setRoles(['ROLE_ADMIN']);
         $manager->persist($user);
 
         $manager->flush();
