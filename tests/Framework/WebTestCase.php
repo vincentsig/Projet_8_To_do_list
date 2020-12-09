@@ -3,6 +3,7 @@
 namespace App\Tests\Framework;
 
 use Throwable;
+use App\Entity\User;
 use Doctrine\ORM\Tools\SchemaTool;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
@@ -23,6 +24,7 @@ class WebTestCase extends BaseWebTestCase
 
         $this->client = static::createClient();
 
+
         $this->em  = $this->getDoctrine()->getManager();
 
         static $metadata = null;
@@ -38,6 +40,34 @@ class WebTestCase extends BaseWebTestCase
             $schemaTool->createSchema($metadata);
         }
     }
+
+    protected function getAdminLogin()
+    {
+        $this->client->loginUser($this->createAdminUser());
+    }
+
+    protected function createAdminUser($overrides = []): User
+    {
+        $data = array_merge([
+            'username' => 'username_test',
+            'roles' => ['ROLE_ADMIN'],
+            'password' => '12345',
+            'email' => 'test@gmail.com',
+
+        ], $overrides);
+
+        $user = (new User($data))
+            ->setUsername($data['username'])
+            ->setRoles($data['roles'])
+            ->setpassword($data['password'])
+            ->setEmail($data['email']);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        return $user;
+    }
+
 
     /**
      * visit

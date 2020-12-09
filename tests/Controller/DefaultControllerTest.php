@@ -2,7 +2,7 @@
 
 namespace App\Test\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Tests\Framework\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
@@ -11,9 +11,10 @@ class DefaultControllerTest extends WebTestCase
      */
     public function firstTestForCi()
     {
-        $client = static::createClient();
 
-        $crawler = $client->request('GET', '/');
+
+        $this->getAdminLogin();
+        $this->visit('/');
 
         $this->assertResponseIsSuccessful();
     }
