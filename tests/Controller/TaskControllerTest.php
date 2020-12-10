@@ -5,10 +5,13 @@ namespace App\Test\Controller;
 use DateTime;
 use App\Entity\Task;
 use App\Entity\User;
+use App\Tests\UserFactory;
 use App\Tests\Framework\WebTestCase;
 
 class TaskControllerTest extends WebTestCase
 {
+    use UserFactory;
+
     /**
      * Generate Task By default if no data is set,
      * if some data are set the task will be overrrides with array_merge.
@@ -172,7 +175,8 @@ class TaskControllerTest extends WebTestCase
     public function user_can_not_remove_a_task_if_they_are_not_the_author()
     {
         $this->getAdminLogin();
-        $user1 = $this->createUsers([
+
+        $user1 = $this->createUser([
             'username' => 'user1',
             'email' => 'randomemail@gmail.com',
         ]);
@@ -190,7 +194,7 @@ class TaskControllerTest extends WebTestCase
      */
     public function user_with_user_role_can_not_remove_anonymous_user()
     {
-        $user = $this->createUsers(['roles' => ['ROLE_USER']]);
+        $user = $this->createUser(['roles' => ['ROLE_USER']]);
         $this->client->loginUser($user);
         $task1 = $this->createTask([
             'title' => 'task_1',
