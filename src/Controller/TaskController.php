@@ -39,7 +39,7 @@ class TaskController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
+            $task->setAuthor($this->getUser());
             $em->persist($task);
             $em->flush();
 
@@ -98,6 +98,7 @@ class TaskController extends AbstractController
      */
     public function deleteTaskAction(Task $task)
     {
+        $this->denyAccessUnlessGranted('TASK_DELETE', $task);
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);
         $em->flush();

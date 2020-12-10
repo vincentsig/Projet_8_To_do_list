@@ -43,10 +43,10 @@ class WebTestCase extends BaseWebTestCase
 
     protected function getAdminLogin()
     {
-        $this->client->loginUser($this->createAdminUser());
+        $this->client->loginUser($this->createUsers());
     }
 
-    protected function createAdminUser($overrides = []): User
+    protected function createUsers($overrides = []): User
     {
         $data = array_merge([
             'username' => 'username_test',
