@@ -3,20 +3,19 @@
 namespace App\Tests\Framework;
 
 use Throwable;
-use App\Entity\User;
 use Doctrine\ORM\Tools\SchemaTool;
-use PHPUnit\Framework\ExpectationFailedException;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
+use App\Tests\UserFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 
 class WebTestCase extends BaseWebTestCase
 {
+    use UserFactory;
+
     protected $client;
     protected $em;
     protected $crawler;
     protected $response;
     protected $responseContent;
-
 
     protected function setUp(): void
     {
@@ -41,33 +40,14 @@ class WebTestCase extends BaseWebTestCase
         }
     }
 
+    /**
+     * Create an user with the role admin and use the loginUser() method
+     *  to simulate logging in in your functional tests.
+     */
     protected function getAdminLogin()
     {
-        $this->client->loginUser($this->createAdminUser());
+        $this->client->loginUser($this->createUser(['roles' => ['ROLE_ADMIN']]));
     }
-
-    protected function createAdminUser($overrides = []): User
-    {
-        $data = array_merge([
-            'username' => 'username_test',
-            'roles' => ['ROLE_ADMIN'],
-            'password' => '12345',
-            'email' => 'test@gmail.com',
-
-        ], $overrides);
-
-        $user = (new User($data))
-            ->setUsername($data['username'])
-            ->setRoles($data['roles'])
-            ->setpassword($data['password'])
-            ->setEmail($data['email']);
-
-        $this->em->persist($user);
-        $this->em->flush();
-
-        return $user;
-    }
-
 
     /**
      * visit
@@ -85,7 +65,10 @@ class WebTestCase extends BaseWebTestCase
 
         return $this;
     }
-
+    /**
+     * Test the expected status code
+     * @param int $expectedStatusCode
+     */
     protected function seeStatusCode(int $expectedStatusCode): self
     {
         $this->assertResponseStatusCodeSame($expectedStatusCode);
@@ -101,9 +84,6 @@ class WebTestCase extends BaseWebTestCase
     /**
      * check if the text is in the responseContent
      * @param string $text
-     * @return WebTestCase
-     * @throws ExpectationFailedException
-     * @throws InvalidArgumentException
      */
     protected function seeText(string $text): self
     {
@@ -112,6 +92,11 @@ class WebTestCase extends BaseWebTestCase
         return $this;
     }
 
+    /**
+     * Make an assertStringNotContainsString
+     * with $text value expected and compare with the responseContent
+     * @param string $text
+     */
     protected function dontSeeText(string $text): self
     {
         if (!empty($text)) {
@@ -145,6 +130,12 @@ class WebTestCase extends BaseWebTestCase
         return $this;
     }
 
+    /**
+     *
+     * Make an assertStringContainsString
+     * @param mixed $text
+     * @param mixed $element
+     */
     protected function assertElementTextContains($text, $element)
     {
         $this->assertStringContainsString($text, $element->text());

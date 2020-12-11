@@ -4,17 +4,21 @@ namespace App\Test\Controller;
 
 use DateTime;
 use App\Entity\Task;
+use App\Entity\User;
+use App\Tests\UserFactory;
 use App\Tests\Framework\WebTestCase;
 
 class TaskControllerTest extends WebTestCase
 {
+    use UserFactory;
+
     /**
      * Generate Task By default if no data is set,
      * if some data are set the task will be overrrides with array_merge.
      *
      * @param array $overrides
      */
-    private function createTask($overrides = []): Task
+    private function createTask($overrides = [], User $user = null): Task
     {
         $data = array_merge([
             'createdAt' => new DateTime('+ 1 days'),
@@ -28,7 +32,7 @@ class TaskControllerTest extends WebTestCase
             ->setCreatedAt($data['createdAt'])
             ->setTitle($data['title'])
             ->setContent($data['content'])
-            ->setAuthor(null);
+            ->setAuthor($user);
 
         $task->toggle($data['isDone']);
 
@@ -158,6 +162,63 @@ class TaskControllerTest extends WebTestCase
 
         $this->seePageIs('/tasks');
         $this->dontSeeText($task2->getTitle());
+        $this->assertStringContainsString(
+            'Superbe ! La tâche a bien été supprimée.',
+            $this->crawler->filter('div.alert')->text()
+        );
+    }
+
+
+    /**
+     * @test
+     */
+    public function user_can_not_remove_a_task_if_they_are_not_the_author()
+    {
+        $this->getAdminLogin();
+
+        $user1 = $this->createUser([
+            'username' => 'user1',
+            'email' => 'randomemail@gmail.com',
+        ]);
+        $task1 = $this->createTask([
+            'title' => 'task_1'
+        ], $user1);
+
+        $this->client->followRedirects(true);
+        $this->visit('/tasks/' . $task1->getId() . '/delete');
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    /**
+     * @test
+     */
+    public function user_with_user_role_can_not_remove_anonymous_user()
+    {
+        $user = $this->createUser(['roles' => ['ROLE_USER']]);
+        $this->client->loginUser($user);
+        $task1 = $this->createTask([
+            'title' => 'task_1',
+            $user
+        ]);
+        $this->client->followRedirects(true);
+        $this->visit('/tasks/' . $task1->getId() . '/delete');
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    /**
+     * @test
+     */
+    public function user_with_admin_role_can_remove_anonymous_user()
+    {
+        $this->getAdminLogin();
+        $task1 = $this->createTask([
+            'title' => 'task_1',
+            'author' => null,
+        ]);
+        $this->client->followRedirects(true);
+        $this->visit('/tasks/' . $task1->getId() . '/delete');
+        $this->seePageIs('/tasks');
+        $this->dontSeeText($task1->getTitle());
         $this->assertStringContainsString(
             'Superbe ! La tâche a bien été supprimée.',
             $this->crawler->filter('div.alert')->text()
