@@ -13,7 +13,7 @@
 .phpunit
 .phpunit.result.cache
 /phpunit.xml
-/src/test/coverage/
+tests/coverage/
 ###< symfony/phpunit-bridge ###
 
 ###> symfony/webpack-encore-bundle ###

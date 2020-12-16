@@ -8,10 +8,16 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class TaskVoter extends Voter
 {
+    public const DELETE = 'delete';
+
+    private const ATTRIBUTES = [
+        self::DELETE,
+    ];
+
     protected function supports($attribute, $task)
     {
 
-        return in_array($attribute, ['TASK_DELETE'])
+        return in_array($attribute, self::ATTRIBUTES)
             && $task instanceof \App\Entity\Task;
     }
 
@@ -24,14 +30,20 @@ class TaskVoter extends Voter
         }
 
         switch ($attribute) {
-            case 'TASK_DELETE':
-                if ($task->getAuthor() === null && in_array('ROLE_ADMIN', $user->getRoles(), true)) {
-                    return true;
-                }
-                return $task->getAuthor() === $user;
-                break;
+            case self::DELETE:
+                return $this->canDelete($user, $task);
+        }
+    }
+
+    public function canDelete($user, $task)
+    {
+        if ($task->getAuthor() === $user) {
+            return true;
         }
 
+        if ($task->getAuthor() === null && in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+            return true;
+        }
         return false;
     }
 }
