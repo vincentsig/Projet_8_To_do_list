@@ -192,7 +192,7 @@ class TaskControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function user_with_user_role_can_not_remove_anonymous_user()
+    public function user_with_admin_role_can_not_remove_anonymous_user()
     {
         $user = $this->createUser(['roles' => ['ROLE_USER']]);
         $this->client->loginUser($user);
