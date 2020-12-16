@@ -7,12 +7,20 @@ use App\Entity\User;
 use ReflectionClass;
 use PHPUnit\Framework\TestCase;
 use App\Security\Voter\TaskVoter;
+use ReflectionMethod;
+use ReflectionException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class TaskVoterTest extends TestCase
 {
-
-    public static function getPrivateMethod($obj, $name)
+    /**
+     * Get protected or private method on an object
+     * @param mixed $obj
+     * @param mixed $name
+     * @return ReflectionMethod
+     * @throws ReflectionException
+     */
+    private function getPrivateMethod($obj, $name)
     {
         $class = new ReflectionClass($obj);
         $method = $class->getMethod($name);
@@ -31,7 +39,7 @@ class TaskVoterTest extends TestCase
         $task = new Task();
         $task->setAuthor(null);
         $voter = new TaskVoter();
-        $method = self::getPrivateMethod($voter, 'voteOnAttribute');
+        $method = $this->getPrivateMethod($voter, 'voteOnAttribute');
         $tokenMock = $this->CreateMock(TokenInterface::class);
         $tokenMock->method('getUser')->willReturn($user);
 
@@ -45,11 +53,10 @@ class TaskVoterTest extends TestCase
     {
         $user = null;
 
-
         $task = new Task();
         $task->setAuthor(null);
         $voter = new TaskVoter();
-        $method = self::getPrivateMethod($voter, 'voteOnAttribute');
+        $method = $this->getPrivateMethod($voter, 'voteOnAttribute');
         $tokenMock = $this->CreateMock(TokenInterface::class);
         $tokenMock->method('getUser')->willReturn($user);
 
@@ -110,7 +117,6 @@ class TaskVoterTest extends TestCase
     {
         $user = new User();
         $user->setRoles(['ROLE_ADMIN']);
-
 
         $task = new Task();
         $task->setAuthor(null);
