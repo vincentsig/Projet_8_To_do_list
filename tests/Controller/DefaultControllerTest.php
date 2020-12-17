@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Test\Controller;
+namespace App\Tests\Controller;
 
 use App\Tests\Framework\WebTestCase;
 
@@ -11,8 +11,6 @@ class DefaultControllerTest extends WebTestCase
      */
     public function firstTestForCi()
     {
-
-
         $this->getAdminLogin();
         $this->visit('/');
 
