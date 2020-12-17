@@ -66,9 +66,6 @@ class LoginFormAuthenticator extends AbstractAuthenticator
         return new Passport($user, new PasswordCredentials($request->request->get('_password')), [
              // and CSRF protection using a "csrf_token" field
              new CsrfTokenBadge('login_form', $request->get('csrf_token')),
-
-             // and add support for upgrading the password hash
-             new PasswordUpgradeBadge($request->request->get('_password'), $this->userRepository),
          ]);
     }
 

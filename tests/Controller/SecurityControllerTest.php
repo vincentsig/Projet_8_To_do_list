@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Test\Controller;
+namespace App\Tests\Controller;
 
 use App\Tests\UserFactory;
 use App\Tests\Framework\WebTestCase;
@@ -43,7 +43,7 @@ class SecurityControllerTest extends WebTestCase
      */
     public function a_user_with_good_credential_should_be_able_to_log_in()
     {
-        $user = $this->createUser([
+        $this->createUser([
         'username' => 'usertest',
         'password' =>
             '$argon2id$v=19$m=65536,t=4,p=1$WjdlNFo0VXpjOXU0SGdOdA$Yd9XKsrRNKlV693gpZA5se0OxNCx8bA/YO9MoTqSiP8'
