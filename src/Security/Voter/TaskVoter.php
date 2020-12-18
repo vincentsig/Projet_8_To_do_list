@@ -33,6 +33,8 @@ class TaskVoter extends Voter
             case self::DELETE:
                 return $this->canDelete($user, $task);
         }
+
+        throw new \LogicException('Invalid attribute: ' . $attribute);
     }
 
     public function canDelete($user, $task)
