@@ -72,10 +72,12 @@ class TaskVoterTest extends TestCase
 
         $task = new Task();
         $task->setAuthor($user);
-
         $voter = new TaskVoter();
+        $method = $this->getPrivateMethod($voter, 'voteOnAttribute');
+        $tokenMock = $this->CreateMock(TokenInterface::class);
+        $tokenMock->method('getUser')->willReturn($user);
 
-        $this->assertTrue($voter->canDelete($user, $task));
+        $this->assertTrue($method->invokeArgs($voter, ['delete', $task, $tokenMock]));
     }
 
     /**
@@ -83,31 +85,33 @@ class TaskVoterTest extends TestCase
      */
     public function user_can_not_delete_if_they_are_not_the_author_of_the_task()
     {
-        $user = new User();
-        $randomAuthor = new User();
+        $user1 = new User();
+        $user2 = new User();
 
         $task = new Task();
-        $task->setAuthor($randomAuthor);
-
+        $task->setAuthor($user1);
         $voter = new TaskVoter();
+        $method = $this->getPrivateMethod($voter, 'voteOnAttribute');
+        $tokenMock = $this->CreateMock(TokenInterface::class);
+        $tokenMock->method('getUser')->willReturn($user2);
 
-        $this->assertFalse($voter->canDelete($user, $task));
+        $this->assertFalse($method->invokeArgs($voter, ['delete', $task, $tokenMock]));
     }
 
-        /**
+    /**
      * @test
      */
     public function user_can_not_delete_anonymous_task()
     {
         $user = new User();
-        $user->setRoles(['ROLE_USER']);
 
         $task = new Task();
-        $task->setAuthor(null);
-
         $voter = new TaskVoter();
+        $method = $this->getPrivateMethod($voter, 'voteOnAttribute');
+        $tokenMock = $this->CreateMock(TokenInterface::class);
+        $tokenMock->method('getUser')->willReturn($user);
 
-        $this->assertFalse($voter->canDelete($user, $task));
+        $this->assertFalse($method->invokeArgs($voter, ['delete', $task, $tokenMock]));
     }
 
     /**
@@ -122,7 +126,29 @@ class TaskVoterTest extends TestCase
         $task->setAuthor(null);
 
         $voter = new TaskVoter();
+        $method = $this->getPrivateMethod($voter, 'voteOnAttribute');
+        $tokenMock = $this->CreateMock(TokenInterface::class);
+        $tokenMock->method('getUser')->willReturn($user);
 
-        $this->assertTrue($voter->canDelete($user, $task));
+        $this->assertTrue($method->invokeArgs($voter, ['delete', $task, $tokenMock]));
+    }
+
+    /**
+     * @test
+     */
+    public function invalid_attributes_should_return_a_logicException()
+    {
+        $user = new User();
+        $user->setRoles(['ROLE_ADMIN']);
+
+        $task = new Task();
+        $task->setAuthor($user);
+
+        $voter = new TaskVoter();
+        $method = $this->getPrivateMethod($voter, 'voteOnAttribute');
+        $tokenMock = $this->CreateMock(TokenInterface::class);
+        $tokenMock->method('getUser')->willReturn($user);
+        $this->expectException(\LogicException::class);
+        $method->invokeArgs($voter, ['invalid_attribute', $task, $tokenMock]);
     }
 }
