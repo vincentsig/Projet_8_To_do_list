@@ -28,7 +28,7 @@ class UserTest extends TestCase
      */
     public function remove_task()
     {
-        $user = new User();  
+        $user = new User();
         $task1 = new Task();
         $task2 = new Task();
 
