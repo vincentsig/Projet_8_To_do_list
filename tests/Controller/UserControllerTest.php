@@ -51,7 +51,6 @@ class UserControllerTest extends WebTestCase
         $this->visit('/users/create');
         $this->assertResponseOK();
 
-
         $this->visit('/users/' . $user->getId() . '/edit');
         $this->assertResponseOK();
     }
@@ -110,15 +109,14 @@ class UserControllerTest extends WebTestCase
         $form['user[password][second]'] = "12345";
         $form['user[email]'] = "email@test.com";
         $form['user[roles]'] = 'ROLE_USER';
-
         $this->client->submit($form);
 
-        $this->client->followRedirects();
-        $this->assertResponseRedirects('/users');
-        $this->visit('/users');
-        $this->assertStringContainsString(
+        $crawler = $this->client->followRedirect();
+
+        $this->seePageIs('/users');
+        $this->assertElementTextContains(
             "Superbe ! L'utilisateur a bien été ajouté.",
-            $this->crawler->filter('div.alert')->text()
+            $crawler->filter('div.alert')
         );
     }
 
@@ -141,15 +139,14 @@ class UserControllerTest extends WebTestCase
         $form['user[password][second]'] = "12345";
         $form['user[email]'] = "email@test.com";
         $form['user[roles]'] = 'ROLE_USER';
-
         $this->client->submit($form);
 
-        $this->client->followRedirects();
-        $this->assertResponseRedirects('/users');
-        $this->visit('/users');
-        $this->assertStringContainsString(
+        $crawler = $this->client->followRedirect();
+
+        $this->seePageIs('/users');
+        $this->assertElementTextContains(
             "Superbe ! L'utilisateur a bien été modifié",
-            $this->crawler->filter('div.alert')->text()
+            $crawler->filter('div.alert')
         );
     }
 }

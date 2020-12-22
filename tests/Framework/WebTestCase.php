@@ -143,6 +143,19 @@ class WebTestCase extends BaseWebTestCase
         return $this;
     }
 
+       /**
+     *
+     * Make an assertStringNotContainsString
+     * @param mixed $text
+     * @param mixed $element
+     */
+    protected function assertElementTextNoTContains($text, $element)
+    {
+        $this->assertStringNotContainsString($text, $element->text());
+
+        return $this;
+    }
+
     /**
      * This method is called when a test method did not execute successfully,
      * and return an explicite exception message.
