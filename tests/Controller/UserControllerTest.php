@@ -67,7 +67,7 @@ class UserControllerTest extends WebTestCase
         $this->assertSame('Modifier username_test', $this->crawler->filter('h1')->text());
         $this->assertSelectorExists('form');
         $this->assertSelectorExists("input[name='user[username]']");
-        $this->assertSelectorExists("input[name='user[password][first]']");
+        $this->assertSelectorExists("input[name='user[plainPassword][first]']");
         $this->assertSelectorExists("select[name='user[roles][]']");
     }
 
@@ -105,8 +105,8 @@ class UserControllerTest extends WebTestCase
         $this->visit('/users/create');
         $form = $this->crawler->selectButton('Ajouter')->form();
         $form['user[username]'] = "user_create_test";
-        $form['user[password][first]'] = "12345";
-        $form['user[password][second]'] = "12345";
+        $form['user[plainPassword][first]'] = "123456";
+        $form['user[plainPassword][second]'] = "123456";
         $form['user[email]'] = "email@test.com";
         $form['user[roles]'] = 'ROLE_USER';
         $this->client->submit($form);
@@ -135,8 +135,8 @@ class UserControllerTest extends WebTestCase
         $this->visit('/users/' . $userTest->getId() . '/edit');
         $form = $this->crawler->selectButton('Modifier')->form();
         $form['user[username]'] = "new_name";
-        $form['user[password][first]'] = "12345";
-        $form['user[password][second]'] = "12345";
+        $form['user[plainPassword][first]'] = "123456";
+        $form['user[plainPassword][second]'] = "123456";
         $form['user[email]'] = "email@test.com";
         $form['user[roles]'] = 'ROLE_USER';
         $this->client->submit($form);
