@@ -48,7 +48,7 @@ For this project I'm in charge of the following tasks:
 
 **5. Setup your environment**
 
-      Create an .env.local file and fill in the required environment variables if needed.
+Create an .env.local file and fill in the required environment variables if needed.
 
       ###> doctrine/doctrine-bundle ###
             DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name
@@ -70,8 +70,9 @@ For this project I'm in charge of the following tasks:
       login : user_test
       password : 123456
 
-## Contribute
+## Contributing
 
+You can contribute to the project : [CONTRIBUTING](https://github.com/vincentsig/Projet_8_To_do_list/blob/main/CONTRIBUTING.md)
 
 
 
