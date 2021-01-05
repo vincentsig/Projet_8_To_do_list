@@ -18,7 +18,7 @@ trait UserFactory
         $data = array_merge([
             'username' => 'username_test',
             'roles' => ['ROLE_USER'],
-            'password' => '12345',
+            'plainPassword' => '12345',
             'email' => 'test@gmail.com',
 
         ], $overrides);
@@ -26,7 +26,7 @@ trait UserFactory
         $user = (new User($data))
             ->setUsername($data['username'])
             ->setRoles($data['roles'])
-            ->setpassword($data['password'])
+            ->setPlainPassword($data['plainPassword'])
             ->setEmail($data['email']);
 
         if (!$task === null) {
