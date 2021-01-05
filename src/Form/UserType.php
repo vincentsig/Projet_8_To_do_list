@@ -25,10 +25,6 @@ class UserType extends AbstractType
                 'required' => true,
                 'first_options' => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Tapez le mot de passe à nouveau'],
-                'constraints' => [
-                    new NotBlank(),
-                    new Length(['min' => 6, 'max' => 4096]),
-                ]
             ])
             ->add('email', EmailType::class, ['label' => 'Adresse email'])
             ->add('roles', ChoiceType::class, [

@@ -42,6 +42,17 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @Assert\NotBlank(message="Vous devez saisir un mot de passe.")
+     * @Assert\Length(
+     *      min=6,
+     *      max=4096,
+     *      minMessage="Votre mots de passe doit contenir au minimum {{ limit }} caractères ",
+     *      maxMessage="Votre mots de passe peut contenir au maximum {{ limit }} caractères "
+     * )
+     *
+     * @var string
+     */
     private $plainPassword;
 
     /**
