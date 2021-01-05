@@ -19,7 +19,7 @@ class UserType extends AbstractType
         $builder
             ->add('username', TextType::class, ['label' => "Nom d'utilisateur"])
             ->add('plainPassword', RepeatedType::class, [
-                'mapped' => false,
+
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les deux mots de passe doivent correspondre.',
                 'required' => true,

@@ -8,7 +8,6 @@ use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
@@ -26,7 +25,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/create", name="user_create")
      */
-    public function createAction(Request $request, UserPasswordEncoderInterface $encoder)
+    public function createAction(Request $request)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -35,10 +34,8 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-            $plainPassword = $form['plainPassword']->getData();
-            $em = $this->getDoctrine()->getManager();
 
-            $user->setPassword($encoder->encodePassword($user, $plainPassword));
+            $em = $this->getDoctrine()->getManager();
 
             $em->persist($user);
             $em->flush();
@@ -54,16 +51,13 @@ class UserController extends AbstractController
     /**
      * @Route("/users/{id}/edit", name="user_edit")
      */
-    public function editAction(User $user, Request $request, UserPasswordEncoderInterface $encoder)
+    public function editAction(User $user, Request $request)
     {
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $encoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
-
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
