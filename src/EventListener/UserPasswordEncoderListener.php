@@ -6,9 +6,13 @@ use App\Entity\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * UserPasswordEncoderListener
+ * @var UserPasswordEncoderListener
+ */
 class UserPasswordEncoderListener
 {
-    private $encoder;
+    private UserPasswordEncoderInterface $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {

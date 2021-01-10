@@ -5,32 +5,42 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TaskController extends AbstractController
 {
     /**
      * @Route("/tasks", name="app_task_list")
+     *
+     * @param  TaskRepository $repo
+     * @return Response
      */
-    public function listAction(TaskRepository $repo)
+    public function listAction(TaskRepository $repo): Response
     {
         return $this->render('task/list.html.twig', ['tasks' => $repo->findBy(['isDone' => false])]);
     }
 
     /**
      * @Route("/tasks/done", name="app_task_list_done")
+     *
+     * @param TaskRepository $repo
+     * @return Response
      */
-    public function listActionDone(TaskRepository $repo)
+    public function listActionDone(TaskRepository $repo): Response
     {
         return $this->render('task/list.html.twig', ['tasks' => $repo->findBy(["isDone" => true])]);
     }
 
     /**
      * @Route("/tasks/create", name="app_task_create")
+     *
+     * @param  Request $request
+     * @return Response
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): Response
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
@@ -52,9 +62,13 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/{id}/edit", name="app_task_edit")
+     * @Route("/tasks/{id}/edit", name="app_task_edit") : Response
+     *
+     * @param  Task $task
+     * @param  Request $request
+     * @return Response
      */
-    public function editAction(Task $task, Request $request)
+    public function editAction(Task $task, Request $request): Response
     {
         $form = $this->createForm(TaskType::class, $task);
 
@@ -76,8 +90,11 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/{id}/toggle", name="app_task_toggle")
+     *
+     * @param  Task $task
+     * @return Response
      */
-    public function toggleTaskAction(Task $task)
+    public function toggleTaskAction(Task $task): Response
     {
         $task->toggle(!$task->isDone());
         $this->getDoctrine()->getManager()->flush();
@@ -95,8 +112,11 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/{id}/delete", name="app_task_delete")
+     *
+     * @param  Task $task
+     * @return Response
      */
-    public function deleteTaskAction(Task $task)
+    public function deleteTaskAction(Task $task): Response
     {
         $this->denyAccessUnlessGranted('delete', $task);
         $em = $this->getDoctrine()->getManager();

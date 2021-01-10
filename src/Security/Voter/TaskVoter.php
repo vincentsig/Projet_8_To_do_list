@@ -2,9 +2,11 @@
 
 namespace App\Security\Voter;
 
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use App\Entity\Task;
+use App\Entity\User;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class TaskVoter extends Voter
 {
@@ -14,14 +16,15 @@ class TaskVoter extends Voter
         self::DELETE,
     ];
 
-    protected function supports($attribute, $task)
+
+    protected function supports(string $attribute, $task): bool
     {
 
         return in_array($attribute, self::ATTRIBUTES)
             && $task instanceof \App\Entity\Task;
     }
 
-    protected function voteOnAttribute($attribute, $task, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $task, TokenInterface $token)
     {
         $user = $token->getUser();
         // if the user is anonymous, do not grant access
@@ -37,7 +40,14 @@ class TaskVoter extends Voter
         throw new \LogicException('Invalid attribute: ' . $attribute);
     }
 
-    public function canDelete($user, $task)
+    /**
+     * canDelete
+     *
+     * @param  User $user
+     * @param  Task $task
+     * @return bool
+     */
+    public function canDelete(User $user, Task $task): bool
     {
         if ($task->getAuthor() === $user) {
             return true;

@@ -23,24 +23,24 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank(message="Vous devez saisir un nom d'utilisateur.")
      */
-    private $username;
+    private string $username;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private $password;
+    private string $password;
 
     /**
      * @Assert\NotBlank(message="Vous devez saisir un mot de passe.")
@@ -53,24 +53,24 @@ class User implements UserInterface
      *
      * @var string
      */
-    private $plainPassword;
+    private string $plainPassword;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
      * @Assert\NotBlank(message="Vous devez saisir une adresse email.")
      * @Assert\Email(message="Le format de l'adresse n'est pas correcte.")
      */
-    private $email;
+    private string $email;
 
     /**
      * @ORM\OneToMany(targetEntity=Task::class, mappedBy="author")
      */
-    private $tasks;
+    private Collection $tasks;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $updatedAt;
+    private ?\DateTime $updatedAt;
 
     public function __construct()
     {
@@ -101,6 +101,8 @@ class User implements UserInterface
 
     /**
      * @see UserInterface
+     *
+     * @return array
      */
     public function getRoles(): array
     {
@@ -120,6 +122,8 @@ class User implements UserInterface
 
     /**
      * @see UserInterface
+     *
+     * @return string
      */
     public function getPassword(): string
     {
@@ -150,11 +154,22 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
+    /**
+     * getEmail
+     *
+     * @return string
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * setEmail
+     *
+     * @param  string $email
+     * @return self
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -180,6 +195,12 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * removeTask
+     *
+     * @param  Task $task
+     * @return self
+     */
     public function removeTask(Task $task): self
     {
         if ($this->tasks->removeElement($task)) {
