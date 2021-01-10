@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TaskController extends AbstractController
 {
     /**
-     * @Route("/tasks", name="task_list")
+     * @Route("/tasks", name="app_task_list")
      */
     public function listAction(TaskRepository $repo)
     {
@@ -20,7 +20,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/done", name="task_list_done")
+     * @Route("/tasks/done", name="app_task_list_done")
      */
     public function listActionDone(TaskRepository $repo)
     {
@@ -28,7 +28,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/create", name="task_create")
+     * @Route("/tasks/create", name="app_task_create")
      */
     public function createAction(Request $request)
     {
@@ -45,14 +45,14 @@ class TaskController extends AbstractController
 
             $this->addFlash('success', 'La tâche a bien été ajoutée.');
 
-            return $this->redirectToRoute('task_list');
+            return $this->redirectToRoute('app_task_list');
         }
 
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
     }
 
     /**
-     * @Route("/tasks/{id}/edit", name="task_edit")
+     * @Route("/tasks/{id}/edit", name="app_task_edit")
      */
     public function editAction(Task $task, Request $request)
     {
@@ -65,7 +65,7 @@ class TaskController extends AbstractController
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
 
-            return $this->redirectToRoute('task_list');
+            return $this->redirectToRoute('app_task_list');
         }
 
         return $this->render('task/edit.html.twig', [
@@ -75,7 +75,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/{id}/toggle", name="task_toggle")
+     * @Route("/tasks/{id}/toggle", name="app_task_toggle")
      */
     public function toggleTaskAction(Task $task)
     {
@@ -85,16 +85,16 @@ class TaskController extends AbstractController
         if ($task->isDone() === true) {
             $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
 
-            return $this->redirectToRoute('task_list');
+            return $this->redirectToRoute('app_task_list');
         }
 
         $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme non terminé.', $task->getTitle()));
 
-        return $this->redirectToRoute('task_list_done');
+        return $this->redirectToRoute('app_task_list_done');
     }
 
     /**
-     * @Route("/tasks/{id}/delete", name="task_delete")
+     * @Route("/tasks/{id}/delete", name="app_task_delete")
      */
     public function deleteTaskAction(Task $task)
     {
@@ -105,6 +105,6 @@ class TaskController extends AbstractController
 
         $this->addFlash('success', 'La tâche a bien été supprimée.');
 
-        return $this->redirectToRoute('task_list');
+        return $this->redirectToRoute('app_task_list');
     }
 }

@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	<a href="{{ path('task_create') }}" class="btn btn-info float-right">Créer une tâche</a>
+	<a href="{{ path('app_task_create') }}" class="btn btn-info float-right">Créer une tâche</a>
 	<div class="row">
 		{% for task in tasks %}
 			<div class="col-sm-4 col-lg-4 col-md-4">
@@ -19,20 +19,20 @@
 								{% endif %}
 							</h4>
 							<h4>
-								<a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a>
+								<a href="{{ path('app_task_edit', {'id' : task.id }) }}">{{ task.title }}</a>
 							</h4>
 							<p>{{ task.content }}</p>
 						</div>
 					</div>
 
 					<div class="card-body">
-						<form action="{{ path('task_toggle', {'id' : task.id }) }}">
+						<form action="{{ path('app_task_toggle', {'id' : task.id }) }}">
 							<button class="btn btn-success btn-sm float-right">
 								{% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée
 								{% endif %}
 							</button>
 						</form>
-						<form action="{{ path('task_delete', {'id' : task.id }) }}">
+						<form action="{{ path('app_task_delete', {'id' : task.id }) }}">
 							<button class="btn btn-danger btn-sm float-right">Supprimer</button>
 						</form>
 					</div>
@@ -42,7 +42,7 @@
 		{% else %}
 			<div class="alert alert-warning" role="alert">
 				Il n'y a pas encore de tâche enregistrée.
-				<a href="{{ path('task_create') }}" class="btn btn-warning float-right">Créer une tâche</a>
+				<a href="{{ path('app_task_create') }}" class="btn btn-warning float-right">Créer une tâche</a>
 			</div>
 		{% endfor %}
 	</div>

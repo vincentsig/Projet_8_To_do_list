@@ -55,7 +55,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
      */
     public function authenticate(Request $request): PassportInterface
     {
-        // find a user based on an "email" form field
+
         $user = $this->userRepository->findOneByUsername($request->request->get('_username'));
 
         if (!$user) {
@@ -81,7 +81,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
     {
         $request->getSession()->getFlashBag()->add('success', 'Vous êtes maintenant connecté');
 
-        return new RedirectResponse($this->urlGenerator->generate('homepage'));
+        return new RedirectResponse($this->urlGenerator->generate('app_homepage'));
     }
 
     /**

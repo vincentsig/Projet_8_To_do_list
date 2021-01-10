@@ -2,7 +2,7 @@
 
 {% block body %}
 	<div class="row d-block">
-		{{ form_start(form, {'action' : path('task_edit', { 'id' : task.id })}) }}
+		{{ form_start(form, {'action' : path('app_task_edit', { 'id' : task.id })}) }}
 		{{ form_widget(form) }}
 
 		<button type="submit" class="btn btn-success float-right">Modifier</button>
