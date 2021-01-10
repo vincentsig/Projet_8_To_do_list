@@ -53,7 +53,7 @@ class User implements UserInterface
      *
      * @var string
      */
-    private string $plainPassword;
+    private ?string $plainPassword;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
