@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserType;
+use App\Service\UserHandler;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UserController extends AbstractController
 {
+    private $userHandler;
+
+    public function __construct(UserHandler $userHandler)
+    {
+        $this->userHandler  =  $userHandler;
+    }
+
     /**
      * @Route("/users", name="app_user_list")
      *
@@ -35,24 +42,14 @@ class UserController extends AbstractController
     public function createAction(Request $request): Response
     {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
-
-            $em = $this->getDoctrine()->getManager();
-
-            $em->persist($user);
-            $em->flush();
-
+        if ($this->userHandler->create($request, $user)) {
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
 
             return $this->redirectToRoute('app_user_list');
         }
 
-        return $this->render('user/create.html.twig', ['form' => $form->createView()]);
+        return $this->render('user/create.html.twig', ['form' => $this->userHandler->getForm()->createView()]);
     }
 
     /**
@@ -64,18 +61,12 @@ class UserController extends AbstractController
      */
     public function editAction(User $user, Request $request): Response
     {
-        $form = $this->createForm(UserType::class, $user);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
+        if ($this->userHandler->edit($request, $user)) {
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
             return $this->redirectToRoute('app_user_list');
         }
 
-        return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+        return $this->render('user/edit.html.twig', ['form' => $this->userHandler->getForm()->createView(), 'user' => $user]);
     }
 }
