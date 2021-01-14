@@ -43,7 +43,8 @@ class UserController extends AbstractController
     {
         $user = new User();
 
-        if ($this->userHandler->create($request, $user)) {
+        if ($this->userHandler->handle($request, $user)) {
+            $this->userHandler->createUser();
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
 
             return $this->redirectToRoute('app_user_list');
@@ -61,7 +62,8 @@ class UserController extends AbstractController
      */
     public function editAction(User $user, Request $request): Response
     {
-        if ($this->userHandler->edit($request, $user)) {
+        if ($this->userHandler->handle($request, $user)) {
+            $this->userHandler->editUser();
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
             return $this->redirectToRoute('app_user_list');

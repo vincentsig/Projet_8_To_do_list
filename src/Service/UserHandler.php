@@ -11,7 +11,7 @@ class UserHandler extends AbstractHandler
 {
     protected EntityManagerInterface $em;
     protected FormInterface $form;
-    const FORMTYPE = UserType::class;
+    protected const FORMTYPE = UserType::class;
 
     public function __construct(EntityManagerInterface $em, FormFactoryInterface $formFactory)
     {
@@ -19,4 +19,20 @@ class UserHandler extends AbstractHandler
         $this->formFactory  = $formFactory;
     }
 
+    public function createUser(): void
+    {
+            $this->em->persist($this->data);
+            $this->em->flush();
+    }
+
+    public function editUser(): void
+    {
+        $this->em->persist($this->data);
+        $this->em->flush();
+    }
+
+    public function getForm(): FormInterface
+    {
+        return $this->form;
+    }
 }

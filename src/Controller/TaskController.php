@@ -51,7 +51,8 @@ class TaskController extends AbstractController
     {
         $task = new Task();
 
-        if ($this->taskHandler->create($request, $task)) {
+        if ($this->taskHandler->handle($request, $task)) {
+            $this->taskHandler->createTask();
             $this->addFlash('success', 'La tâche a bien été ajoutée.');
 
             return $this->redirectToRoute('app_task_list');
@@ -70,7 +71,8 @@ class TaskController extends AbstractController
     public function editAction(Task $task, Request $request): Response
     {
 
-        if ($this->taskHandler->edit($request, $task)) {
+        if ($this->taskHandler->handle($request, $task)) {
+            $this->taskHandler->editTask();
             $this->addFlash('success', 'La tâche a bien été modifiée.');
 
             return $this->redirectToRoute('app_task_list');
@@ -113,7 +115,7 @@ class TaskController extends AbstractController
     {
         $this->denyAccessUnlessGranted('delete', $task);
 
-        $this->taskHandler->delete($task);
+        $this->taskHandler->deleteTask($task);
 
         $this->addFlash('success', 'La tâche a bien été supprimée.');
 
