@@ -26,6 +26,18 @@ class UserPasswordEncoderListener
 
     public function preUpdate(User $user, LifecycleEventArgs $event): void
     {
-        $user->setPassword($this->encoder->encodePassword($user, ($user->getPlainPassword())));
+        if($this->checkIfPlainPasswordNotNul($user))
+        {
+            $user->setPassword($this->encoder->encodePassword($user, ($user->getPlainPassword())));
+        }  
+    }
+
+    private function checkIfPlainPasswordNotNul(User $user) : bool
+    {
+        if(!$user->getPlainPassword() === null)
+        {   
+            return true;
+        }
+        return false;
     }
 }

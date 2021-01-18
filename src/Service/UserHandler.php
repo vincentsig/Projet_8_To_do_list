@@ -27,7 +27,6 @@ class UserHandler extends AbstractHandler
 
     public function editUser(): void
     {
-        $this->em->persist($this->data);
         $this->em->flush();
     }
 

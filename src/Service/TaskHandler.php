@@ -33,7 +33,6 @@ class TaskHandler extends AbstractHandler
 
     public function editTask(): void
     {
-        $this->em->persist($this->data);
         $this->em->flush();
     }
 
