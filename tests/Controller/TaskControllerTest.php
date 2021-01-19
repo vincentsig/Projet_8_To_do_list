@@ -159,7 +159,7 @@ class TaskControllerTest extends WebTestCase
         $this->SeeText($task2->getTitle());
 
         $this->client->followRedirects(true);
-        $this->visit('/tasks/' . $task2->getId() . '/delete');
+        $this->visit('/tasks/' . $task2->getId() . '/delete', 'DELETE');
 
         $this->seePageIs('/tasks');
         $this->dontSeeText($task2->getTitle());
@@ -186,7 +186,7 @@ class TaskControllerTest extends WebTestCase
         ], $user1);
 
         $this->client->followRedirects(true);
-        $this->visit('/tasks/' . $task1->getId() . '/delete');
+        $this->visit('/tasks/' . $task1->getId() . '/delete', 'DELETE');
         $this->assertResponseStatusCodeSame(403);
     }
 
@@ -202,7 +202,7 @@ class TaskControllerTest extends WebTestCase
             $user
         ]);
         $this->client->followRedirects(true);
-        $this->visit('/tasks/' . $task1->getId() . '/delete');
+        $this->visit('/tasks/' . $task1->getId() . '/delete', 'DELETE');
         $this->assertResponseStatusCodeSame(403);
     }
 
@@ -217,7 +217,7 @@ class TaskControllerTest extends WebTestCase
             'author' => null,
         ]);
         $this->client->followRedirects(true);
-        $this->visit('/tasks/' . $task1->getId() . '/delete');
+        $this->visit('/tasks/' . $task1->getId() . '/delete', 'DELETE');
         $this->seePageIs('/tasks');
         $this->dontSeeText($task1->getTitle());
         $this->assertElementTextContains(

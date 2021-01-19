@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TaskController extends AbstractController
 {
     /**
-     * @Route("/tasks", name="app_task_list")
+     * @Route("/tasks", name="app_task_list", methods={"GET"})
      * @param  TaskRepository $repo
      * @return Response
      */
@@ -24,7 +24,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/done", name="app_task_list_done")
+     * @Route("/tasks/done", name="app_task_list_done", methods={"GET"})
      * @param TaskRepository $repo
      * @return Response
      */
@@ -34,7 +34,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/create", name="app_task_create")
+     * @Route("/tasks/create", name="app_task_create", methods={"GET", "POST"})
      *  @param  Request $request
      * @return Response
      */
@@ -52,14 +52,14 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/{id}/edit", name="app_task_edit") : Response
+     * @Route("/tasks/{id}/edit", name="app_task_edit", methods={"GET", "PUT"}) : Response
      * @param  Task $task
      * @param  Request $request
      * @return Response
      */
     public function editAction(Task $task, Request $request, TaskEditHandler $handler): Response
     {
-        if ($handler->handle($request, $task)) {
+        if ($handler->handle($request, $task, ['method' => "PUT"])) {
             return $this->redirectToRoute('app_task_list');
         }
 
@@ -70,7 +70,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/{id}/toggle", name="app_task_toggle")
+     * @Route("/tasks/{id}/toggle", name="app_task_toggle", methods={"GET"})
      *  @param  Task $task
      * @return Response
      */
@@ -86,7 +86,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/{id}/delete", name="app_task_delete")
+     * @Route("/tasks/{id}/delete", name="app_task_delete", methods={"DELETE"})
      * @param  Task $task
      * @return Response
      */

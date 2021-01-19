@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/users", name="app_user_list")
+     * @Route("/users", name="app_user_list",  methods={"GET"})
      * @param  UserRepository $repo
      * @return Response
      */
@@ -27,7 +27,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/users/create", name="app_user_create")
+     * @Route("/users/create", name="app_user_create",  methods={"GET", "POST"})
      * @param Request $request
      * @param UserCreateHandler $hanlder
      * @return Response
@@ -44,7 +44,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/users/{id}/edit", name="app_user_edit")
+     * @Route("/users/{id}/edit", name="app_user_edit",  methods={"GET", "PUT"})
      *
      * @param  User $user
      * @param  Request $request
@@ -53,7 +53,7 @@ class UserController extends AbstractController
      */
     public function editAction(User $user, Request $request, UserEditHandler $handler): Response
     {
-        if ($handler->handle($request, $user)) {
+        if ($handler->handle($request, $user, ['method' => 'PUT'])) {
             return $this->redirectToRoute('app_user_list');
         }
 

@@ -57,14 +57,17 @@ class WebTestCase extends BaseWebTestCase
      * @param  mixed $url
      * @return self
      */
-    protected function visit($url): self
+    protected function visit($url, $method = 'GET'): self
     {
-        $this->crawler = $this->client->request('GET', $url);
+        $this->crawler = $this->client->request($method, $url);
         $this->response  = $this->client->getResponse();
         $this->responseContent  = $this->response->getContent();
 
         return $this;
     }
+
+
+
     /**
      * Test the expected status code
      * @param int $expectedStatusCode
