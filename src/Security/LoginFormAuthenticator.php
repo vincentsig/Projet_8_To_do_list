@@ -55,7 +55,6 @@ class LoginFormAuthenticator extends AbstractAuthenticator
      */
     public function authenticate(Request $request): PassportInterface
     {
-
         $user = $this->userRepository->findOneByUsername($request->request->get('_username'));
 
         if (!$user) {

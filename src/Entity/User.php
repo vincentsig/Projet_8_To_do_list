@@ -43,7 +43,7 @@ class User implements UserInterface
     private string $password;
 
     /**
-     * @Assert\NotBlank(message="Vous devez saisir un mot de passe.")
+     * @Assert\NotBlank(message="Vous devez saisir un mot de passe.", groups={"user_create"})
      * @Assert\Length(
      *      min=6,
      *      max=4096,
@@ -185,6 +185,12 @@ class User implements UserInterface
         return $this->tasks;
     }
 
+    /**
+     * addTask
+     *
+     * @param  Task $task
+     * @return self
+     */
     public function addTask(Task $task): self
     {
         if (!$this->tasks->contains($task)) {
@@ -215,8 +221,9 @@ class User implements UserInterface
 
     /**
      * Get the value of plainPassword
+     * @return string|null
      */
-    public function getPlainPassword()
+    public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
@@ -227,7 +234,7 @@ class User implements UserInterface
      * @param  string $plainPassword
      * @return void
      */
-    public function setPlainPassword($plainPassword)
+    public function setPlainPassword(string $plainPassword)
     {
         $this->plainPassword = $plainPassword;
         $this->setUpdatedAt(new DateTime('now'));
@@ -235,6 +242,11 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * getUpdatedAt
+     *
+     * @return DateTimeInterface
+     */
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;

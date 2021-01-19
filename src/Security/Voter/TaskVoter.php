@@ -19,7 +19,6 @@ class TaskVoter extends Voter
 
     protected function supports(string $attribute, $task): bool
     {
-
         return in_array($attribute, self::ATTRIBUTES)
             && $task instanceof \App\Entity\Task;
     }

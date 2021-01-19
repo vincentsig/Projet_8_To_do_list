@@ -21,23 +21,22 @@ class UserPasswordEncoderListener
 
     public function prePersist(User $user, LifecycleEventArgs $event): void
     {
-        $user->setPassword($this->encoder->encodePassword($user, ($user->getPlainPassword())));
+        if (!$user->getPlainPassword()) {
+            return;
+        }
+        $this->encodePassword($user);
     }
 
     public function preUpdate(User $user, LifecycleEventArgs $event): void
     {
-        if($this->checkIfPlainPasswordNotNul($user))
-        {
-            $user->setPassword($this->encoder->encodePassword($user, ($user->getPlainPassword())));
-        }  
+        if (!$user->getPlainPassword()) {
+            return;
+        }
+        $this->encodePassword($user);
     }
 
-    private function checkIfPlainPasswordNotNul(User $user) : bool
+    private function encodePassword(User $user): void
     {
-        if(!$user->getPlainPassword() === null)
-        {   
-            return true;
-        }
-        return false;
+        $user->setPassword($this->encoder->encodePassword($user, ($user->getPlainPassword())));
     }
 }
