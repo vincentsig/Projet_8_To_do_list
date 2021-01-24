@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\User;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TaskRepository;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -67,7 +68,7 @@ class Task
      *
      * @return DateTimeInterface
      */
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }

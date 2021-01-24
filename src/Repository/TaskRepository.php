@@ -53,10 +53,10 @@ class TaskRepository extends ServiceEntityRepository
     /**
      * checkTaskStatus
      *
-     * @param  Task $tasks
+     * @param  Task $task
      * @return void
      */
-    private function checkTaskStatus($task): void
+    private function checkTaskStatus(Task $task): void
     {
         if ($task->isDone() === true) {
             $this->session->getFlashBag()->add(

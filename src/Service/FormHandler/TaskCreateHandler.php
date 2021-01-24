@@ -22,7 +22,7 @@ class TaskCreateHandler extends AbstractHandler
         $this->session = $session;
     }
 
-    public function process($data): void
+    public function process(object $data): void
     {
         $data->setAuthor($this->security->getUser());
         $this->em->persist($data);

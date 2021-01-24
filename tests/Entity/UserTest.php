@@ -5,6 +5,7 @@ namespace App\Tests\Entity;
 use App\Entity\Task;
 use App\Entity\User;
 use App\Tests\UserFactory;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
@@ -38,5 +39,19 @@ class UserTest extends TestCase
 
         $user->removeTask($task2);
         $this->assertNotContains($task2, $user->getTasks());
+    }
+
+    /**
+     * @test
+     */
+    public function test_updatedAt()
+    {
+        $user = new User();
+        $date = new DateTime('now');
+
+        $user->setUpdatedAt($date);
+        $updatatedDate = $user->getUpdatedAt();
+
+        $this->assertSame($date, $updatatedDate);
     }
 }

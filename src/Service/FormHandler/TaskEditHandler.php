@@ -14,14 +14,13 @@ class TaskEditHandler extends AbstractHandler
     protected const FORMTYPE = TaskType::class;
     private SessionInterface $session;
 
-    public function __construct(EntityManagerInterface $em, Security $security, SessionInterface $session)
+    public function __construct(EntityManagerInterface $em, SessionInterface $session)
     {
         $this->em = $em;
-        $this->security = $security;
         $this->session = $session;
     }
 
-    public function process($data): void
+    public function process(object $data): void
     {
         $this->em->flush();
 

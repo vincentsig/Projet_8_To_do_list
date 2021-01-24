@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\UserInterface;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -70,7 +71,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private ?\DateTime $updatedAt;
+    private ?\DateTimeInterface $updatedAt;
 
     public function __construct()
     {
@@ -92,6 +93,12 @@ class User implements UserInterface
         return (string) $this->username;
     }
 
+    /**
+     * setUsername
+     *
+     * @param  string $username
+     * @return self
+     */
     public function setUsername(string $username): self
     {
         $this->username = $username;
@@ -102,7 +109,7 @@ class User implements UserInterface
     /**
      * @see UserInterface
      *
-     * @return array
+     * @return array<string>
      */
     public function getRoles(): array
     {
@@ -113,6 +120,12 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * setRoles
+     *
+     * @param  array<string> $roles
+     * @return self
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -232,9 +245,9 @@ class User implements UserInterface
      * setPlainPassword
      *
      * @param  string $plainPassword
-     * @return void
+     * @return self
      */
-    public function setPlainPassword(string $plainPassword)
+    public function setPlainPassword(string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
         $this->setUpdatedAt(new DateTime('now'));
@@ -245,13 +258,19 @@ class User implements UserInterface
     /**
      * getUpdatedAt
      *
-     * @return DateTimeInterface
+     * @return DateTimeInterface|null
      */
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
+    /**
+     * setUpdatedAt
+     *
+     * @param  DateTimeInterface|null $updatedAt
+     * @return self
+     */
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;

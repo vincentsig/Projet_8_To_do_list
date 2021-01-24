@@ -11,12 +11,12 @@ abstract class AbstractHandler implements AbstractHandlerInterface
 {
     private FormFactoryInterface $formFactory;
     protected FormInterface $form;
+    protected const FORMTYPE = 'abstract';
 
     /**
-     *
      * @required
      */
-    public function setFormFactory(FormFactoryInterface $formFactory)
+    public function setFormFactory(FormFactoryInterface $formFactory): void
     {
         $this->formFactory = $formFactory;
     }

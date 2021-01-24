@@ -29,7 +29,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/create", name="app_user_create",  methods={"GET", "POST"})
      * @param Request $request
-     * @param UserCreateHandler $hanlder
+     * @param UserCreateHandler $handler
      * @return Response
      */
     public function createAction(Request $request, UserCreateHandler $handler): Response

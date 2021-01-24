@@ -12,7 +12,7 @@ class TaskType extends AbstractType
     /**
      * buildForm
      *
-     * @param  FormBuilder $builder
+     * @param  FormBuilderInterface $builder
      * @param  array $options
      * @return void
      */

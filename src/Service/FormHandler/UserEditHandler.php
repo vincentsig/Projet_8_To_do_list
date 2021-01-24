@@ -13,7 +13,6 @@ class UserEditHandler extends AbstractHandler
     private SessionInterface $session;
     protected const FORMTYPE = UserType::class;
 
-
     public function __construct(EntityManagerInterface $em, SessionInterface $session)
     {
         $this->em = $em;
