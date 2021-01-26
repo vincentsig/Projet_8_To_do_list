@@ -49,4 +49,61 @@ class UserPasswordEncoderListenerTest extends TestCase
 
         $this->assertNull($listener->preUpdate($user, $mockArgs));
     }
+
+
+    /**
+     * @test
+     */
+    public function a_password_should_be_encoded_if_there_is_a_plainpassword_on_create_user()
+    {
+        $user = new  User();
+        $user->setPlainPassword('plain_password');
+
+
+        $mockArgs = $this->getMockBuilder(LifecycleEventArgs::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mockEncoder = $this->getMockBuilder(UserPasswordEncoderInterface::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['encodePassword', 'isPasswordValid', 'needsRehash'])
+            ->getMock();
+
+        $mockEncoder->expects($this->once())
+        ->method('encodePassword')
+        ->willReturn('encoded_password');
+
+        $listener = new UserPasswordEncoderListener($mockEncoder);
+
+        $listener->prePersist($user, $mockArgs);
+        $this->assertEquals('encoded_password', $user->getPassword());
+    }
+
+    /**
+     * @test
+     */
+    public function a_password_should_be_encoded_if_there_is_a_plainpassword_on_edit_user()
+    {
+        $user = new  User();
+        $user->setPlainPassword('plain_password');
+
+
+        $mockArgs = $this->getMockBuilder(LifecycleEventArgs::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mockEncoder = $this->getMockBuilder(UserPasswordEncoderInterface::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['encodePassword', 'isPasswordValid', 'needsRehash'])
+            ->getMock();
+
+        $mockEncoder->expects($this->once())
+        ->method('encodePassword')
+        ->willReturn('encoded_password');
+
+        $listener = new UserPasswordEncoderListener($mockEncoder);
+
+        $listener->preUpdate($user, $mockArgs);
+        $this->assertEquals('encoded_password', $user->getPassword());
+    }
 }
