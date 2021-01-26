@@ -42,11 +42,11 @@ class TaskVoter extends Voter
     /**
      * canDelete
      *
-     * @param  User $user
+     * @param  Userinterface $user
      * @param  Task $task
      * @return bool
      */
-    public function canDelete(User $user, Task $task): bool
+    public function canDelete(UserInterface $user, Task $task): bool
     {
         if ($task->getAuthor() === $user) {
             return true;

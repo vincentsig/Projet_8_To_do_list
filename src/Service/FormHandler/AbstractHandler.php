@@ -33,6 +33,10 @@ abstract class AbstractHandler implements AbstractHandlerInterface
         return false;
     }
 
+
+    /**
+     * @return FormInterface
+     */
     public function getForm(): FormInterface
     {
         return $this->form;

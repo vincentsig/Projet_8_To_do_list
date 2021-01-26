@@ -34,12 +34,13 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="json")
+     * @var array<string>
      */
     private array $roles = [];
 
     /**
-     * @var string The hashed password
      * @ORM\Column(type="string")
+     * @var string The hashed password
      */
     private string $password;
 
@@ -65,6 +66,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Task::class, mappedBy="author")
+     * @var Collection<int,Task>
      */
     private Collection $tasks;
 
@@ -191,7 +193,8 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Task[]
+     * @return Collection<int,Task>|Task[]
+     *
      */
     public function getTasks(): Collection
     {
