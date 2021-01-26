@@ -4,7 +4,6 @@ namespace App\Service\FormHandler;
 
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class UserEditHandler extends AbstractHandler
@@ -24,10 +23,5 @@ class UserEditHandler extends AbstractHandler
         $this->em->flush();
 
         $this->session->getFlashBag()->add('success', "L'utilisateur a bien été modifié");
-    }
-
-    public function getForm(): FormInterface
-    {
-        return $this->form;
     }
 }

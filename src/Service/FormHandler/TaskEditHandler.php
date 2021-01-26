@@ -4,7 +4,6 @@ namespace App\Service\FormHandler;
 
 use App\Form\TaskType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class TaskEditHandler extends AbstractHandler
@@ -24,10 +23,5 @@ class TaskEditHandler extends AbstractHandler
         $this->em->flush();
 
         $this->session->getFlashBag()->add('success', 'La tâche a bien été modifiée.');
-    }
-
-    public function getForm(): FormInterface
-    {
-        return $this->form;
     }
 }

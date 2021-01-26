@@ -4,7 +4,6 @@ namespace App\Service\FormHandler;
 
 use App\Form\TaskType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -32,10 +31,5 @@ class TaskCreateHandler extends AbstractHandler
         $this->em->flush();
 
         $this->session->getFlashBag()->add('success', 'La tâche a bien été ajoutée.');
-    }
-
-    public function getForm(): FormInterface
-    {
-        return $this->form;
     }
 }
