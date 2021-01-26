@@ -15,8 +15,11 @@ class TaskCreateHandler extends AbstractHandler
     private TokenStorageInterface $tokenStorage;
     private SessionInterface $session;
 
-    public function __construct(EntityManagerInterface $em, TokenStorageInterface $tokenStorage, SessionInterface $session)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        TokenStorageInterface $tokenStorage,
+        SessionInterface $session
+    ) {
         $this->em = $em;
         $this->tokenStorage = $tokenStorage;
         $this->session = $session;
