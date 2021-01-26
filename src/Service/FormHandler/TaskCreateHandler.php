@@ -6,25 +6,25 @@ use App\Form\TaskType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class TaskCreateHandler extends AbstractHandler
 {
     private EntityManagerInterface $em;
     protected const FORMTYPE = TaskType::class;
-    private Security $security;
+    private TokenStorageInterface $tokenStorage;
     private SessionInterface $session;
 
-    public function __construct(EntityManagerInterface $em, Security $security, SessionInterface $session)
+    public function __construct(EntityManagerInterface $em, TokenStorageInterface $tokenStorage, SessionInterface $session)
     {
         $this->em = $em;
-        $this->security = $security;
+        $this->tokenStorage = $tokenStorage;
         $this->session = $session;
     }
 
     public function process(object $data): void
     {
-        $data->setAuthor($this->security->getUser());
+        $data->setAuthor($this->tokenStorage->getToken()->getUser());
         $this->em->persist($data);
         $this->em->flush();
 

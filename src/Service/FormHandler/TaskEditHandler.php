@@ -6,7 +6,6 @@ use App\Form\TaskType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Security;
 
 class TaskEditHandler extends AbstractHandler
 {
