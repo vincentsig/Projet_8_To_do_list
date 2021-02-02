@@ -247,10 +247,10 @@ class User implements UserInterface
     /**
      * setPlainPassword
      *
-     * @param  string $plainPassword
+     * @param  string|null $plainPassword
      * @return self
      */
-    public function setPlainPassword(string $plainPassword): self
+    public function setPlainPassword(?string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
         $this->setUpdatedAt(new DateTime('now'));
