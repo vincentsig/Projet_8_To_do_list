@@ -1,0 +1,24 @@
+@startuml
+actor User 
+
+ref over User, ToDo_App : authentication success
+
+User -> ToDo_App: click on button "Créer une nouvelle tâche"
+User <-- ToDo_App: view: task_create page
+User -> ToDo_App: submit new task
+ToDo_App -> ToDo_App: check constraints
+
+alt valid data
+ToDo_App -> Database: save data
+ToDo_App <-- Database: return
+User <-- ToDo_App: flash message task created
+User <-- ToDo_App: view: task_list page
+
+
+    
+else invalide data
+User <-- ToDo_App: flash message invalid data
+User <-- ToDo_App: view: task_create page
+end
+
+@enduml

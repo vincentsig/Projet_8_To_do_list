@@ -1,0 +1,41 @@
+@startuml
+
+class Task {
+id: integer
+createdAt: Datetime
+title: string
+content: text
+isDone: bool
+author: User
+
+{method} isDone() :bool
+{method} toggle(bool $flag) :void
+}
+
+class User {
+    id: integer
+    username: string
+    password: string
+    plainPassword: string
+    email: string
+    roles: array
+    tasks: collection Task
+
+    {method}addTask(Task $task): self
+    {method}removeTask(Task $task): self
+
+}
+
+class UserInterface{
+    {method}GetRoles()
+    {method}GetPassword()
+    {method}getSalt()
+    {method}GetUsername()
+    {method}eraseCredentials()
+    
+}
+class User extends UserInterface
+
+Task "*" - "1" User
+
+@enduml

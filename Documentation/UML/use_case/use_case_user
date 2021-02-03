@@ -1,0 +1,21 @@
+@startuml
+(Authenticated)
+
+User --> (Login)
+User --> (Get task list)
+User --> (Create task)
+User --> (Edit task)
+User --> (Delete his own task)
+User --> (Mark task done)
+User --> (Unmark task done)
+
+
+left to right direction
+(Create task) ..> (Authenticated) : include
+(Get task list) ..> (Authenticated) : include
+(Edit task) ..> (Authenticated) : include
+(Delete his own task) ..> (Authenticated) : include
+(Mark task done) ..> (Authenticated) : include
+(Unmark task done) ..> (Authenticated) : include
+
+@enduml

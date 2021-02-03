@@ -1,0 +1,29 @@
+@startuml
+actor User 
+
+User -> ToDo_App: click on button "se Connecter"
+User <-- ToDo_App: view: login page
+User -> ToDo_App: submit login form
+ToDo_App -> ToDo_App: check constraints
+ToDo_App -> Database: get User
+Database -> ToDo_App: return
+ToDo_App -> ToDo_App: check if user exist
+
+
+alt User exist
+
+
+    ToDo_App -> ToDo_App: check credentials
+    alt  success authentication
+    
+    User <-- ToDo_App: user Authenticated, Redirect to Homepage
+
+    else  error authentication
+    User <-- ToDo_App: credentials Exception
+
+    end
+else User does not exist
+User <-- ToDo_App: credentials Exception
+end
+
+@enduml

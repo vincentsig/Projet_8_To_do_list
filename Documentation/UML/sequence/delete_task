@@ -1,0 +1,41 @@
+@startuml
+actor User 
+
+ref over User, ToDo_App : authentication success
+
+
+User -> ToDo_App: click on button "Consulter la liste des tâches à faire"
+ToDo_App -> Database: findAll tasks done
+ToDo_App <-- Database: return
+User <-- ToDo_App: view: task_list_done page
+User -> ToDo_App: click on button "Supprimer"
+ToDo_App -> ToDo_App: check autorisation
+
+
+alt the user is the author of the task
+    alt ROLE_ADMIN
+ToDo_App -> Database: delete task
+ToDo_App <-- Database: return
+User <-- ToDo_App: flash message task deleted
+User <-- ToDo_App: view: task_list page
+
+
+User <-- ToDo_App: exception: method not allowed
+    else ROLE_USER
+    alt the task is not anonymous
+    ToDo_App -> Database: delete task
+    ToDo_App <-- Database: return
+    User <-- ToDo_App: flash message task deleted
+    User <-- ToDo_App: view: task_list page
+    else the task is anonymous
+    User <-- ToDo_App: exception: access denied
+    end
+    
+end
+    
+else the user is not the author of the task
+User <-- ToDo_App: exception: access denied
+end
+
+
+@enduml

@@ -1,0 +1,11 @@
+@startuml
+actor User 
+
+ref over User, ToDo_App : authentication success
+
+User -> ToDo_App: click on button "Consulter la liste des tâches à faire"
+ToDo_App -> Database: findAll tasks undone
+ToDo_App <-- Database: return
+User <-- ToDo_App: view: task_list page
+
+@enduml
