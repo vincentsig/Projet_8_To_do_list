@@ -1,6 +1,6 @@
 # Documentation technique concernant l’implémentation de l’authentification
 
-![cover](/Documentation/Authentication/images/to_do_cover.jpg)
+![cover](/documentation/authentication/images/to_do_cover.jpg)
 
 ## Introduction
 
@@ -26,7 +26,7 @@ Lors de la sortie de Symfony 6, il y a de très grandes probabilités que ce nou
 
 Et si l’on commençait par cette citation : _"Une image vaut mille mots"_.
 
-![shema](/Documentation/Authentication/images/shema.png)
+![shema](/documentation/authentication/images/shema.png)
 
 Parce que le system d’authentification de Symfony est assez complexe, il est bien d’avoir une vue d’ensemble avant de passer aux explications.
 Lorsqu’un utilisateur va vouloir se connecter, il va y avoir principalement 5 étapes :
@@ -50,7 +50,7 @@ Il me semble important de rappeler qu’avec Symfony, suivant les projets sur le
 
 Voici la liste de nos bundles dans ToDo & Co, on peut voir que le bundle-security est bien présent:
 
-![bundle-list](/Documentation/Authentication/images/bundle-list.png)
+![bundle-list](/documentation/authentication/images/bundle-list.png)
 
 Si le SecurityBundle n’est pas présent il faudra alors l’installer avec Symfony flex, tapez la commande suivante :
 
@@ -89,18 +89,18 @@ Commençons par regarder d'un **point de vue générale** à quoi correspondent 
 - **role_hierarchy**: Vous permet de définir différents rôles pour vos utilisateurs ainsi que leurs hiérarchies.
 
 Maintenant jettons un oeil au ficher `security.yaml` présent dans notre application ToDo & Co.  
- ![security.yaml](/Documentation/Authentication/images/security.png)
+ ![security.yaml](/documentation/authentication/images/security.png)
 
 - **encoders**  
-  ![encoders](/Documentation/Authentication/images/encoders.png)
+  ![encoders](/documentation/authentication/images/encoders.png)
   On a choisi la propriété auto, au niveau du choix de l’algorithme qui encode notre password. Cela permet, de laisser Symfony choisir le meilleur algorithme. La sécurité étant quelque chose qui évolue, un système d’encodage très sécuritaire utilisé aujourd’hui ne le sera peut-être plus dans les années à venir.
 
 - **providers**
-  ![encoders](/Documentation/Authentication/images/providers.png)
+  ![encoders](/documentation/authentication/images/providers.png)
   Lorsque nous avions créer notre entité **User** avec le maker-bundle, je vous avais dit que notre fichier `security.yaml` avait été modifié. En effet, ici on peut voir que la configuration c’est faite automatiquement. Nos utilisateurs seront récupérés dans notre base de données via notre entité User avec la propriété **username** qui correspondra à l'identifiant.
 
 - **firewalls**
-  ![firewalls](/Documentation/Authentication/images/firewalls.png)
+  ![firewalls](/documentation/authentication/images/firewalls.png)
 
       On a vu que notre autorisation est représentée par notre firewalls, celui-ci se compose en deux parties:
 
@@ -115,17 +115,17 @@ Maintenant jettons un oeil au ficher `security.yaml` présent dans notre applica
 
     Vous pouvez ajouter une méthode logout dans votre securityController et indiquer la route. Dans notre application, nous avons choisi de configurer directement la route dans le fichier `config/routes.yaml` :
 
-    ![routes](/Documentation/Authentication/images/routes.png)
+    ![routes](/documentation/authentication/images/routes.png)
 
 - **enable_authenticator_manager**
 
 Pour activer le nouveau système d’authentification de Symfony, il faut ajouter cette ligne de configuration au niveau de security :
 
-![authenticator_enable](/Documentation/Authentication/images/authenticator_enable.png)
+![authenticator_enable](/documentation/authentication/images/authenticator_enable.png)
 
 - **access_control**
 
-![acces_control](/Documentation/Authentication/images/access_control.png)
+![acces_control](/documentation/authentication/images/access_control.png)
 La configuration de l’access_control nous permet de contrôler les autorisations au niveau de certaines URL.
 
 - Tous les utilisateurs ont accès à `/login`.
@@ -135,29 +135,29 @@ La configuration de l’access_control nous permet de contrôler les autorisatio
 ---
 
 4. Création de notre customer_authenticator
-   ![authenticator](/Documentation/Authentication/images/authenticator.png)
+   ![authenticator](/documentation/authentication/images/authenticator.png)
 
 Je ne vais pas expliquer dans les moindres détails cette classe, mais on va voir le processus d’authentification étape par étape pour comprendre de façon générale le fonctionnement de cet authenticator.
 Premièrement notre class `LoginFormAuthenticator` extends d’une classe abstraite `AbsctractAuthenticator`. L’`AbstractAuthenticator` implement l’interface `AuthenticatorInterface`. Nous avons donc un contrat de 5 méthodes à respecter dans notre class `LoginFormAuthenticator` :
 
 - **supports**
-  ![support](/Documentation/Authentication/images/support.png)
+  ![support](/documentation/authentication/images/support.png)
 
 La méthode `supports` va être appelé à chaque requêtes exécutées sur notre application. Cette méthode renvoie un booléen. Si la requête exécutée correspond à la logique métier présente, elle va renvoyer `True` et appeler la méthode `authenticate`. Dans notre cas on veut vérifier que la route appelée est `app_login` et qu’il s’agit d’une requête en POST. Dans notre controller on aura donc une route `app_login` (voir partie 5).
 Pour tout autres requêtes supports va retourner `False` et la suite du processus d’authentification ne s’exécutera pas.
 
 - **authenticate**
-  ![authenticate](/Documentation/Authentication/images/authenticate.png)
+  ![authenticate](/documentation/authentication/images/authenticate.png)
   Comme son nom l’indique authenticate va identifier l’utilisateur. Tout d’abord on vérifie avec son identifiant provenant du formulaire qu’il existe bien dans notre base de données.
   _ Si ce n’est pas le cas alors une exception sera lever et la méthode `onAuthenticationFailure` sera appelé.
   _ Si User existe, on va créer un objet Passport dans lequel on va passer comme argument l’utilisateur récupérer dans la base de données, son plain password (`_pasword`) et son csrf token (`csrf_token`) que l’on récupère dans l’objet request provenant du formulaire de login. (voir partie 5). La méthode `onAuthenticationSuccess` sera alors appelée.
 
 - **onAuthenticationSuccess**
-  ![success](/Documentation/Authentication/images/success.png)
+  ![success](/documentation/authentication/images/success.png)
   Notre utilisateur à bien été authentifié, on peut alors envoyer un message flash et le rediriger, dans notre cas vers la page `homepage`.
 
 - **onAuthenticationFailure**
-  ![failure](/Documentation/Authentication/images/failure.png)
+  ![failure](/documentation/authentication/images/failure.png)
   L’authentification a échouer, on récupère l’exception levée dans `authenticate` et on peut ensuite rediriger l’utilisateur vers la page que l’on souhaite. Dans notre application notre utilisateur sera redirigé vers `app_login` pour qu’il puisse essayer de s’identifier de nouveau.
 
 ---
@@ -165,11 +165,11 @@ Pour tout autres requêtes supports va retourner `False` et la suite du processu
 5. Création du SecurityController et de la vue.
 
 - **Le Controller**
-  ![controller](/Documentation/Authentication/images/controller.png)
+  ![controller](/documentation/authentication/images/controller.png)
   Ici on a notre `loginAction` qui va être appelé lorsque l’utilisateur effectuera une requête vers la route /login. On passe ensuite à la vue (`security/login.html.twig`) le dernier username saisie ainsi que le dernier message d’erreur qui à été levé dans notre **authenticator**.
 
 - **La vue**
-  ![formulaire](/Documentation/Authentication/images/formulaire.png)
+  ![formulaire](/documentation/authentication/images/formulaire.png)
   On utilise un formulaire avec comme input le nom d’utilisateur, le password ainsi que le `csrf_token` qui est un champ caché.
   le `form novalidate` permet de désactiver les validations de html 5 et de pouvoir tester nos validations coté serveur.
   > **Note**: Pour plus d'informations concernant les csrf_token et les faille xss voir la rubrique "Pour aller plus loin" dans la dernière partie de la documentation.
@@ -207,7 +207,7 @@ Les voters sont un moyens très simple et efficace de controller les autorisatio
 
 Nous avons un cas concret d'utilisation au sein de notre application ToDo & Co:
 
-![voters](/Documentation/Authentication/images/voters.png)
+![voters](/documentation/authentication/images/voters.png)
 
 Ce voter nous permet de controler deux choses :
 
@@ -216,7 +216,7 @@ Ce voter nous permet de controler deux choses :
 
 Dernière étape, il faut indiquer dans notre controller sur quelles méthodes on veut effectuer ce controle grâce à `$this->denyAccessUnlessGranted($attributes, $subject)`.
 
-![voters](/Documentation/Authentication/images/voters_controller.png)
+![voters](/documentation/authentication/images/voters_controller.png)
 
 ## Pour conclure
 
