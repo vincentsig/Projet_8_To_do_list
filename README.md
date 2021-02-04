@@ -12,9 +12,9 @@ For this project I'm in charge of the following tasks:
 
 - The implementation of new features
 - The correction of some anomalies and the implementation of automated tests
-- Create a code quality & application performance audit
-- Create a technical documentation concerning the implementation of authentication
-- Create a document explaining how to contribute to the project
+- Create a code quality & application performance [audit](https://github.com/vincentsig/Projet_8_To_do_list/blob/documentation/documentation/audit/audit.pdf)
+- Create a [technical documentation](https://github.com/vincentsig/Projet_8_To_do_list/blob/documentation/documentation/authentication/documentation.md) concerning the implementation of authentication
+- Create a document explaining how to [contribute](https://github.com/vincentsig/Projet_8_To_do_list/blob/main/CONTRIBUTING.md) to the project
 
 ## Code quality
 
