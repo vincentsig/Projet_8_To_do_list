@@ -71,7 +71,7 @@ Create an .env.local file and fill in the required environment variables if need
       login : user_test
       password : 123456
 
-You can have a look of the authentication [documentation](https://github.com/vincentsig/Projet_8_To_do_list/blob/documentation/documentation/authentication/Documentation.md)
+You can have a look of the authentication [documentation](https://github.com/vincentsig/Projet_8_To_do_list/blob/documentation/documentation/authentication/documentation.md)
 
 ## Contributing
 
