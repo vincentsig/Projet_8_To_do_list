@@ -202,40 +202,6 @@ class User implements UserInterface
     }
 
     /**
-     * addTask
-     *
-     * @param  Task $task
-     * @return self
-     */
-    public function addTask(Task $task): self
-    {
-        if (!$this->tasks->contains($task)) {
-            $this->tasks[] = $task;
-            $task->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * removeTask
-     *
-     * @param  Task $task
-     * @return self
-     */
-    public function removeTask(Task $task): self
-    {
-        if ($this->tasks->removeElement($task)) {
-            // set the owning side to null (unless already changed)
-            if ($task->getAuthor() === $this) {
-                $task->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * Get the value of plainPassword
      * @return string|null
      */
