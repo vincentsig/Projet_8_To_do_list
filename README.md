@@ -10,41 +10,42 @@ ToDo & Co is a startup whose core business is an application to manage daily tas
 
 For this project I'm in charge of the following tasks:
 
- - The implementation of new features
- - The correction of some anomalies and the implementation of automated tests
- - Create a code quality & application performance audit
- - Create a technical documentation concerning the implementation of authentication
- - Create a document explaining how to contribute to the project
+- The implementation of new features
+- The correction of some anomalies and the implementation of automated tests
+- Create a code quality & application performance [audit](https://github.com/vincentsig/Projet_8_To_do_list/blob/documentation/documentation/audit/audit.pdf)
+- Create a [technical documentation](https://github.com/vincentsig/Projet_8_To_do_list/blob/documentation/documentation/authentication/documentation.md) concerning the implementation of authentication
+- Create a document explaining how to [contribute](https://github.com/vincentsig/Projet_8_To_do_list/blob/main/CONTRIBUTING.md) to the project
 
 ## Code quality
 
 <a href="https://codeclimate.com/github/vincentsig/Projet_8_To_do_list/maintainability"><img src="https://api.codeclimate.com/v1/badges/f77a295a7aa6597edfa8/maintainability" /></a>
 
-## Development environment 
+## Development environment
 
-- PHP  7.4.8
+- PHP 7.4.8
 - Symfony 5.1.9
 - Apache 2.4.46a
 - MySQL 8.0.22
 
 ## Installation
 
-**1. Download or clone the github repository:**  
+**1. Download or clone the github repository:**
 
-  [To_do_list Repository](https://github.com/vincentsig/Projet_8_To_do_list.git)
+[To_do_list Repository](https://github.com/vincentsig/Projet_8_To_do_list.git)
 
-**2. Install the back-end  dependencies**
+**2. Install the back-end dependencies**
 
       composer install
-      
-**3. Install npm for the front-end dependencies:**
-    
-      npm install    
-      
-**4. Build assets with webpack Encore**
-    
-      npm run watch
 
+
+**3. Install npm for the front-end dependencies:**
+
+      npm install
+
+
+**4. Build assets with webpack Encore**
+
+      npm run watch
 
 **5. Setup your environment**
 
@@ -58,25 +59,20 @@ Create an .env.local file and fill in the required environment variables if need
       php bin/console doctrine:database:create
 
 **7. Update schema**
- 
+
       php bin/console doctrine:schema:update --force
 
 **8. Load the dataFixtures**
 
       php bin/console doctrine:fixtures:load
 
-## Authentification
+## Authentication
 
       login : user_test
       password : 123456
 
+You can have a look of the authentication [documentation](https://github.com/vincentsig/Projet_8_To_do_list/blob/documentation/documentation/authentication/documentation.md)
+
 ## Contributing
 
 You can contribute to the project : [CONTRIBUTING](https://github.com/vincentsig/Projet_8_To_do_list/blob/main/CONTRIBUTING.md)
-
-
-
-
-      
-    
-    
