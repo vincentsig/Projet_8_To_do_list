@@ -31,3 +31,7 @@ yarn-error.log
 ###> phpmetrics ###
 /myreport/
 ###< phpmetrics ###
+
+###> phpmetrics ###
+/documentation/plant_uml/
+###< phpmetrics ###
