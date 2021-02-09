@@ -36,5 +36,5 @@ yarn-error.log
 
 ###> plant_uml_files_directory ###
 /documentation/plant_uml/
->>>>>>> dev
+<<<<<<< HEAD
 ###< plant_uml_files_directory ###
