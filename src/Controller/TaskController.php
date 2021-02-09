@@ -35,7 +35,8 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/create", name="app_task_create", methods={"GET", "POST"})
-     *  @param  Request $request
+     * @param  Request $request
+     * @param TaskCreateHandler $handler
      * @return Response
      */
     public function createAction(Request $request, TaskCreateHandler $handler): Response
@@ -55,6 +56,7 @@ class TaskController extends AbstractController
      * @Route("/tasks/{id}/edit", name="app_task_edit", methods={"GET", "PUT"}) : Response
      * @param  Task $task
      * @param  Request $request
+     * @param TaskEditHandler $handler
      * @return Response
      */
     public function editAction(Task $task, Request $request, TaskEditHandler $handler): Response
@@ -71,7 +73,8 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/{id}/toggle", name="app_task_toggle", methods={"GET"})
-     *  @param  Task $task
+     * @param  Task $task
+     * @param TaskRepository $repo
      * @return Response
      */
     public function toggleTaskAction(Task $task, TaskRepository $repo): Response
@@ -88,6 +91,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/delete", name="app_task_delete", methods={"DELETE"})
      * @param  Task $task
+     * @param TaskRepository $repo
      * @return Response
      */
     public function deleteTaskAction(Task $task, TaskRepository $repo): Response
