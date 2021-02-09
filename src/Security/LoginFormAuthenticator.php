@@ -94,7 +94,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        $request->getSession()->getFlashBag()->add('error', 'Invalid credentials!');
+        $request->getSession()->getFlashBag()->add('error', "les informations d'identification invalides");
 
         return new RedirectResponse($this->urlGenerator->generate('app_login'));
     }
