@@ -66,6 +66,7 @@ class TaskRepository extends ServiceEntityRepository
                     $task->getTitle()
                 )
             );
+            return;
         }
         $this->session->getFlashBag()->add(
             'success',
