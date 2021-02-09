@@ -6,9 +6,13 @@ use App\Entity\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * UserPasswordEncoderListener
+ * @var UserPasswordEncoderListener
+ */
 class UserPasswordEncoderListener
 {
-    private $encoder;
+    private UserPasswordEncoderInterface $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
@@ -17,11 +21,19 @@ class UserPasswordEncoderListener
 
     public function prePersist(User $user, LifecycleEventArgs $event): void
     {
-        $user->setPassword($this->encoder->encodePassword($user, ($user->getPlainPassword())));
+        $this->encodePassword($user);
     }
 
     public function preUpdate(User $user, LifecycleEventArgs $event): void
     {
+        $this->encodePassword($user);
+    }
+
+    private function encodePassword(User $user): void
+    {
+        if (!$user->getPlainPassword()) {
+            return;
+        }
         $user->setPassword($this->encoder->encodePassword($user, ($user->getPlainPassword())));
     }
 }

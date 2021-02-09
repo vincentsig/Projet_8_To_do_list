@@ -18,8 +18,8 @@ use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 
 class LoginFormAuthenticator extends AbstractAuthenticator
 {
-    private $userRepository;
-    private $urlGenerator;
+    private UserRepository $userRepository;
+    private UrlGeneratorInterface $urlGenerator;
 
     public function __construct(UserRepository $userRepository, UrlGeneratorInterface $urlGenerator)
     {
@@ -55,7 +55,6 @@ class LoginFormAuthenticator extends AbstractAuthenticator
      */
     public function authenticate(Request $request): PassportInterface
     {
-
         $user = $this->userRepository->findOneByUsername($request->request->get('_username'));
 
         if (!$user) {

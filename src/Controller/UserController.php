@@ -3,18 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserType;
 use App\Repository\UserRepository;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Service\FormHandler\UserCreateHandler;
+use App\Service\FormHandler\UserEditHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
     /**
-     * @Route("/users", name="app_user_list")
+     * @Route("/users", name="app_user_list",  methods={"GET"})
+     * @param  UserRepository $repo
+     * @return Response
      */
-    public function listAction(UserRepository $repo)
+    public function listAction(UserRepository $repo): Response
     {
         return $this->render(
             'user/list.html.twig',
@@ -23,48 +27,38 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/users/create", name="app_user_create")
+     * @Route("/users/create", name="app_user_create",  methods={"GET", "POST"})
+     * @param Request $request
+     * @param UserCreateHandler $handler
+     * @return Response
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, UserCreateHandler $handler): Response
     {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
-
-            $em = $this->getDoctrine()->getManager();
-
-            $em->persist($user);
-            $em->flush();
-
-            $this->addFlash('success', "L'utilisateur a bien été ajouté.");
-
+        if ($handler->handle($request, $user, ['validation_groups' => ['Default', 'user_create']])) {
             return $this->redirectToRoute('app_user_list');
         }
 
-        return $this->render('user/create.html.twig', ['form' => $form->createView()]);
+        return $this->render('user/create.html.twig', ['form' => $handler->getForm()->createView()]);
     }
 
     /**
-     * @Route("/users/{id}/edit", name="app_user_edit")
+     * @Route("/users/{id}/edit", name="app_user_edit",  methods={"GET", "PUT"})
+     *
+     * @param  User $user
+     * @param  Request $request
+     * @param  UserEditHandler $handler
+     * @return Response
      */
-    public function editAction(User $user, Request $request)
+    public function editAction(User $user, Request $request, UserEditHandler $handler): Response
     {
-        $form = $this->createForm(UserType::class, $user);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            $this->addFlash('success', "L'utilisateur a bien été modifié");
-
+        if ($handler->handle($request, $user, ['method' => 'PUT'])) {
             return $this->redirectToRoute('app_user_list');
         }
 
-        return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+        return $this->render('user/edit.html.twig', [
+        'form' => $handler->getForm()->createView(), 'user' => $user
+            ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * @method Task|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,11 +15,66 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TaskRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private SessionInterface $session;
+
+    public function __construct(ManagerRegistry $registry, SessionInterface $session)
     {
+        $this->session = $session;
         parent::__construct($registry, Task::class);
     }
 
+    /**
+     * deleteTask
+     *
+     * @param  Task $task
+     * @return void
+     */
+    public function deleteTask(Task $task): void
+    {
+        $this->_em->remove($task);
+        $this->_em->flush();
+
+        $this->session->getFlashBag()->add('success', 'La tâche a bien été supprimée.');
+    }
+
+    /**
+     * toggleTask
+     *
+     * @param  Task $task
+     * @return void
+     */
+    public function toggleTask(Task $task): void
+    {
+        $task->toggle(!$task->isDone());
+        $this->_em->flush();
+        $this->checkTaskStatus($task);
+    }
+
+    /**
+     * checkTaskStatus
+     *
+     * @param  Task $task
+     * @return void
+     */
+    private function checkTaskStatus(Task $task): void
+    {
+        if ($task->isDone() === true) {
+            $this->session->getFlashBag()->add(
+                'success',
+                sprintf(
+                    'La tâche %s a bien été marquée comme faite.',
+                    $task->getTitle()
+                )
+            );
+        }
+        $this->session->getFlashBag()->add(
+            'success',
+            sprintf(
+                'La tâche %s a bien été marquée comme non terminé.',
+                $task->getTitle()
+            )
+        );
+    }
 
     // /**
     //  * @return Task[] Returns an array of Task objects

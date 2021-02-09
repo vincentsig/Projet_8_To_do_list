@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\UserInterface;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -23,27 +24,28 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank(message="Vous devez saisir un nom d'utilisateur.")
      */
-    private $username;
+    private string $username;
 
     /**
      * @ORM\Column(type="json")
+     * @var array<string>
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
-     * @var string The hashed password
      * @ORM\Column(type="string")
+     * @var string The hashed password
      */
-    private $password;
+    private string $password;
 
     /**
-     * @Assert\NotBlank(message="Vous devez saisir un mot de passe.")
+     * @Assert\NotBlank(message="Vous devez saisir un mot de passe.", groups={"user_create"})
      * @Assert\Length(
      *      min=6,
      *      max=4096,
@@ -53,24 +55,25 @@ class User implements UserInterface
      *
      * @var string
      */
-    private $plainPassword;
+    private ?string $plainPassword = null;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
      * @Assert\NotBlank(message="Vous devez saisir une adresse email.")
      * @Assert\Email(message="Le format de l'adresse n'est pas correcte.")
      */
-    private $email;
+    private string $email;
 
     /**
      * @ORM\OneToMany(targetEntity=Task::class, mappedBy="author")
+     * @var Collection<int,Task>
      */
-    private $tasks;
+    private Collection $tasks;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $updatedAt;
+    private ?\DateTimeInterface $updatedAt;
 
     public function __construct()
     {
@@ -92,6 +95,12 @@ class User implements UserInterface
         return (string) $this->username;
     }
 
+    /**
+     * setUsername
+     *
+     * @param  string $username
+     * @return self
+     */
     public function setUsername(string $username): self
     {
         $this->username = $username;
@@ -101,6 +110,8 @@ class User implements UserInterface
 
     /**
      * @see UserInterface
+     *
+     * @return array<string>
      */
     public function getRoles(): array
     {
@@ -111,6 +122,12 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * setRoles
+     *
+     * @param  array<string> $roles
+     * @return self
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -120,6 +137,8 @@ class User implements UserInterface
 
     /**
      * @see UserInterface
+     *
+     * @return string
      */
     public function getPassword(): string
     {
@@ -150,11 +169,22 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
+    /**
+     * getEmail
+     *
+     * @return string
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * setEmail
+     *
+     * @param  string $email
+     * @return self
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -163,39 +193,19 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Task[]
+     * @return Collection<int,Task>|Task[]
+     *
      */
     public function getTasks(): Collection
     {
         return $this->tasks;
     }
 
-    public function addTask(Task $task): self
-    {
-        if (!$this->tasks->contains($task)) {
-            $this->tasks[] = $task;
-            $task->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTask(Task $task): self
-    {
-        if ($this->tasks->removeElement($task)) {
-            // set the owning side to null (unless already changed)
-            if ($task->getAuthor() === $this) {
-                $task->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
-
     /**
      * Get the value of plainPassword
+     * @return string|null
      */
-    public function getPlainPassword()
+    public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
@@ -203,10 +213,10 @@ class User implements UserInterface
     /**
      * setPlainPassword
      *
-     * @param  string $plainPassword
-     * @return void
+     * @param  string|null $plainPassword
+     * @return self
      */
-    public function setPlainPassword($plainPassword)
+    public function setPlainPassword(?string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
         $this->setUpdatedAt(new DateTime('now'));
@@ -214,11 +224,22 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * getUpdatedAt
+     *
+     * @return DateTimeInterface|null
+     */
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
+    /**
+     * setUpdatedAt
+     *
+     * @param  DateTimeInterface|null $updatedAt
+     * @return self
+     */
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
