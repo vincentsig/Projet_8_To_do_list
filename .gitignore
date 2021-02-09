@@ -30,11 +30,8 @@ yarn-error.log
 
 ###> phpmetrics ###
 /myreport/
-<<<<<<< HEAD
-=======
 ###< phpmetrics ###
 
 ###> plant_uml_files_directory ###
 /documentation/plant_uml/
-<<<<<<< HEAD
 ###< plant_uml_files_directory ###
