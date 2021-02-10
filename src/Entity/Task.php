@@ -26,16 +26,17 @@ class Task
     private \DateTimeInterface $createdAt;
 
     /**
-     * @Assert\Length(max=40, maxMessage="Le titre de la tâche ne peut pas contenir plus de {{ limit }} caractères.")
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max=60, maxMessage="Le titre de la tâche ne peut pas contenir plus de {{ limit }} caractères.")
      * @Assert\NotBlank(message="Vous devez saisir un titre.")
      */
-    private string $title;
+    private ?string $title = null;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Vous devez saisir du contenu.")
      */
-    private string $content;
+    private ?string $content = null;
 
     /**
      * @ORM\Column(type="boolean")
@@ -89,7 +90,7 @@ class Task
     /**
      * getTitle
      *
-     * @return string
+     * @return string|null
      */
     public function getTitle(): ?string
     {
@@ -112,7 +113,7 @@ class Task
     /**
      * getContent
      *
-     * @return string
+     * @return string|null
      */
     public function getContent(): ?string
     {
