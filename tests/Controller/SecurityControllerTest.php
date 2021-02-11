@@ -35,7 +35,7 @@ class SecurityControllerTest extends WebTestCase
 
         $this->assertResponseRedirects('/login');
         $this->client->followRedirect();
-        $this->assertSelectorTextContains('div.alert.alert-danger', 'Oops ! Invalid credentials!');
+        $this->assertSelectorTextContains('div.alert.alert-danger', 'Oops ! Vos identifiants sont invalides');
     }
 
     /**

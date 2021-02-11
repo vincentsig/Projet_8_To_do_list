@@ -24,14 +24,14 @@ class UserFixtures extends Fixture
         for ($i = 0; $i < 30; ++$i) {
             $user = new User();
             $user->setUsername($faker->userName());
-            $user->setPlainPassword($this->encoder->encodePassword($user, '123456'));
+            $user->setPassword($this->encoder->encodePassword($user, '123456'));
             $user->setEmail($faker->email());
             $manager->persist($user);
             $this->addReference('user-' . $i, $user);
         }
         $user = new User();
         $user->setUsername('user_test');
-        $user->setPlainPassword($this->encoder->encodePassword($user, '123456'));
+        $user->setPassword($this->encoder->encodePassword($user, '123456'));
         $user->setEmail($faker->email());
         $user->setRoles(['ROLE_ADMIN']);
         $manager->persist($user);

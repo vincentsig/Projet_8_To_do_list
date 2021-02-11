@@ -58,7 +58,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
         $user = $this->userRepository->findOneByUsername($request->request->get('_username'));
 
         if (!$user) {
-            throw new CustomUserMessageAuthenticationException('Invalid Credentials!');
+            throw new CustomUserMessageAuthenticationException('Vos identifiants sont invalides');
         }
 
         return new Passport($user, new PasswordCredentials($request->request->get('_password')), [
@@ -94,7 +94,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        $request->getSession()->getFlashBag()->add('error', 'Invalid credentials!');
+        $request->getSession()->getFlashBag()->add('error', "Vos identifiants sont invalides");
 
         return new RedirectResponse($this->urlGenerator->generate('app_login'));
     }
