@@ -32,7 +32,8 @@
 								{% endif %}
 							</button>
 						</form>
-						<form action="{{ path('app_task_delete', {'id' : task.id }) }}">
+						<form action="{{ path('app_task_delete', {'id' : task.id }) }}" method="post">
+							<input type="hidden" name="_method" value="DELETE">
 							<button class="btn btn-danger btn-sm float-right">Supprimer</button>
 						</form>
 					</div>
