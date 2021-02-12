@@ -102,7 +102,7 @@ Maintenant jettons un oeil au ficher `security.yaml` présent dans notre applica
 - **firewalls**
   ![firewalls](/documentation/authentication/images/firewalls.png)
 
-      On a vu que notre autorisation est représentée par notre firewalls, celui-ci se compose en deux parties:
+  On a vu que notre autorisation est représentée par notre firewalls, celui-ci se compose en deux parties:
 
   - **dev** : La partie dev contient un patern avec une expression régulière représentant l’accès à diverses routes. La sécurité est désactivée pour ces routes en environnement de dev grâce au `security : false`. Cela permet d’avoir accès à la « debug bar » et aussi de pouvoir accéder à nos assets, comme nos fichiers statiques (css, images, js …).
 
@@ -110,6 +110,7 @@ Maintenant jettons un oeil au ficher `security.yaml` présent dans notre applica
 
     - `lazy` : true permet de ne pas démarrer de session pour les utilisateurs anonyme (ex : quelqu’un qui essaye de s’identifier). Cela permet d’avoir des gains de performance.
     - `provider` : un firewall a besoin de savoir où trouver ses utilisateurs, cela se fait par le biais de ce paramètre, on indique donc le nom du provider que l’on a défini précédemment.
+    - `form_login` : Permet d'indiquer le chemin du formulaire de connexion. Si un utilisateur essaye d'accéder à une page nécessitant d'être authentifié sans l'être, il sera alors redigireé vers le formulaire dont la route est indiqué dans login_path (app_login).
     - `custom_authenticator` : On indique le chemin de notre authenticator. C’est la class qui va s’occuper de tout le processus d’authentification.
     - `logout` : le firewall peut gérer la déconnexion automatiquement pour vous, lorsque vous activez ce paramètre de configuration. Il vous suffit de préciser le chemin (path) et ensuite la redirection (target).
 
