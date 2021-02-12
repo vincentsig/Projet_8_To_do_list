@@ -12,10 +12,11 @@ class UserControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function visitor_should_not_be_able_to_acces_to_user_list()
+    public function visitor_should_not_be_able_to_acces_to_user_list_and_redirected_to_the_login_form()
     {
         $this->visit('/users');
-        $this->seeStatusCode(401);
+        $this->client->followRedirect();
+        $this->seePageIs('/login');
     }
 
     /**
