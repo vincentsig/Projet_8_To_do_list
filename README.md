@@ -12,8 +12,8 @@ For this project I'm in charge of the following tasks:
 
 - The implementation of new features
 - The correction of some anomalies and the implementation of automated tests
-- Create a code quality & application performance [audit](https://github.com/vincentsig/Projet_8_To_do_list/blob/documentation/documentation/audit/audit.pdf)
-- Create a [technical documentation](https://github.com/vincentsig/Projet_8_To_do_list/blob/documentation/documentation/authentication/documentation.md) concerning the implementation of authentication
+- Create a code quality & application performance [audit](https://github.com/vincentsig/Projet_8_To_do_list/blob/main/documentation/audit/audit.pdf)
+- Create a [technical documentation](https://github.com/vincentsig/Projet_8_To_do_list/blob/main/documentation/authentication/documentation.md) concerning the implementation of authentication
 - Create a document explaining how to [contribute](https://github.com/vincentsig/Projet_8_To_do_list/blob/main/CONTRIBUTING.md) to the project
 
 ## Code quality
@@ -71,7 +71,7 @@ Create an .env.local file and fill in the required environment variables if need
       login : user_test
       password : 123456
 
-You can have a look of the authentication [documentation](https://github.com/vincentsig/Projet_8_To_do_list/blob/documentation/documentation/authentication/documentation.md)
+You can have a look of the authentication [documentation](https://github.com/vincentsig/Projet_8_To_do_list/blob/main/documentation/authentication/documentation.md)
 
 ## Contributing
 
